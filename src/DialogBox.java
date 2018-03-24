@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -221,6 +220,7 @@ class DialogBox extends JDialog {
                 pan.tabLabStatCaracBase[7].setText(Integer.toString((info.courage + info.intelligence + info.force) / 3));
                 pan.tabLabStatCaracBase[8].setText("8");
                 pan.tabLabStatCaracBase[9].setText("10");
+
 
 
 

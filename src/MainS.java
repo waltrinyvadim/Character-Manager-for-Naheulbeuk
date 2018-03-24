@@ -161,6 +161,9 @@ class MainS {
                         panneau.tabLabStatCaracBase[9].setText(resultSetPerso.getString("parade"));
 
 
+                        ;
+
+
                         //on check d'abord si les valeurs des carac modifié sont nul si elle le sont on affiche un ligne vide
                         //sinon on ajoute la valeur
 
@@ -200,35 +203,39 @@ class MainS {
                             panneau.tabTxtCaracMod[9].setText("");
                         }else{panneau.tabTxtCaracMod[9].setText(resultSetPerso.getString("paradeMod"));}
 
-                        //on essaye de remplir le champs de magie phy si il ya des valeurs d'adresse et d'intelligence
-                        if((resultSetPerso.getString("adressemod")!=null)&&(resultSetPerso.getString("intelligencemod")!=null)){
+                       /* //ici on essaye de remplir le champs de magie phy des lors qu'il ya une valeur d'adresse et d'intelligence modifier
+                        if(resultSetPerso.getString("adressemod")==null||resultSetPerso.getString("intelligencemod")==null){
+                            panneau.tabTxtCaracMod[5].setText("");
+                        }else{
                             int value1=Integer.parseInt(resultSetPerso.getString("adressemod"));
                             int value2=Integer.parseInt(resultSetPerso.getString("intelligencemod"));
-                            panneau.tabTxtCaracMod[5].setText(Integer.toString((value1+value2)/2));
-                        }else{panneau.tabTxtCaracMod[5].setText("");}
+                            int moyenne=(value1+value2)/2;
+                            panneau.tabTxtCaracMod[5].setText(Integer.toString(moyenne));
+                        }
 
+                        //de même pour magie psy avec charisme et inlligence mod
+                        if(resultSetPerso.getString("charismemod")==null||resultSetPerso.getString("intelligencemod")==null){
+                            panneau.tabTxtCaracMod[6].setText("");
+                        }else{
+                            int value1=Integer.parseInt(resultSetPerso.getString("charismemod"));
+                            int value2=Integer.parseInt(resultSetPerso.getString("intelligencemod"));
+                            int moyenne=(value1+value2)/2;
+                            panneau.tabTxtCaracMod[6].setText(Integer.toString(moyenne));
+                        }
 
-                        //on essaye de remplir le champde magie psy si il ya des valeurs de charisme et d'intelligence
-                        if(resultSetPerso.getString("charismeMod")!=null&&resultSetPerso.getString("intelligenceMod")!=null){
-                            int value3 = Integer.parseInt(resultSetPerso.getString("charismemod"));
-                            int value4 = Integer.parseInt(resultSetPerso.getString("intelligencemod"));
-                            panneau.tabTxtCaracMod[6].setText(Integer.toString((value3+value4)/2));
-                        }else{panneau.tabTxtCaracMod[6].setText("");}
-
-                        //force courage intelligence
-
-                        if(resultSetPerso.getString("charismeMod")!=null&&resultSetPerso.getString("forceMod")!=null&&resultSetPerso.getString("intelligenceMod")!=null){
-                            int value5 = Integer.parseInt(resultSetPerso.getString("charismemod"));
-                            int value6 = Integer.parseInt(resultSetPerso.getString("forcemod"));
-                            int value7 = Integer.parseInt(resultSetPerso.getString("intelligencemod"));
-                            panneau.tabTxtCaracMod[7].setText(Integer.toString((value5+value6+value7)/3));
-                        }else{panneau.tabTxtCaracMod[7].setText("");}
-
+                        if(resultSetPerso.getString("forcemod")==null||resultSetPerso.getString("couragemod")==null||resultSetPerso.getString("intelligencemod")==null){
+                            panneau.tabTxtCaracMod[7].setText("");
+                        }else{
+                            int value1=Integer.parseInt(resultSetPerso.getString("forcemod"));
+                            int value3=Integer.parseInt(resultSetPerso.getString("couragemod"));
+                            int value2=Integer.parseInt(resultSetPerso.getString("intelligencemod"));
+                            int moyenne=(value1+value2+value3)/3;
+                            panneau.tabTxtCaracMod[7].setText(Integer.toString(moyenne));
+                        }*/
 
                         //ligne de code qui recupère le ou les armes qui ont un foreign key avec l'id du personnage que
                         //l'on est en train d'importer
                         ResultSet resultSetArme=conn.createStatement().executeQuery("SELECT * FROM arme WHERE fk_perrso='"+resultSetPerso.getInt("id")+"'");
-
                         //avec cette methode la on obtient une erreure car il ferme le statement après la première itération de personnage alors que sur celle
                         //du dessus on obtiens tous les resultats voulu
                         //resultSetArme = state.executeQuery("select * from arme where fk_perrso='"+resultSetPerso.getInt("id")+"'");
@@ -265,18 +272,41 @@ class MainS {
         ActionListener actSave = e -> {
             try {
                 for (int i = 0; i < onglet.getTabCount(); i++) {
-                   /* //requette pour la sauvegarde des pv et des pa
-                    PreparedStatement preparedStatementPvEa = conn.prepareStatement("update personnage set pvmax=?,pvactuel=?,pamax=?,paactuel=? where name='"+listOfOnglet.get(i)+"'");
-                    preparedStatementPvEa.setString(1,Panneau.listPanel.get(i).tabTxtStatPvEa[0].getText());
-                    preparedStatementPvEa.setString(2,Panneau.listPanel.get(i).tabTxtActualPvEa[0].getText());
-                    preparedStatementPvEa.setString(3,Panneau.listPanel.get(i).tabTxtStatPvEa[1].getText());
-                    preparedStatementPvEa.setString(4,Panneau.listPanel.get(i).tabTxtActualPvEa[1].getText());
-                    preparedStatementPvEa.execute();
-                    */
 
-                   conn.createStatement().executeUpdate("update personnage set pvmax='"+Panneau.listPanel.get(i).tabTxtStatPvEa[0].getText()+"' where id='"+Panneau.listID.get(i)+"'");
 
-                    System.out.println("ohlo");
+                    //on sauvegarde les info concernant les pv
+                    conn.createStatement().executeUpdate("update personnage set pvmax='"+Panneau.listPanel.get(i).tabTxtStatPvEa[0].getText()+"' where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set pamax='"+Panneau.listPanel.get(i).tabTxtStatPvEa[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set pvactuel='"+Panneau.listPanel.get(i).tabTxtActualPvEa[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set paactuel='"+Panneau.listPanel.get(i).tabTxtActualPvEa[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+                    //on sauvegarde le lvl,l'xp et les pts de destin
+                    conn.createStatement().executeUpdate("update personnage set xp='"+Panneau.listPanel.get(i).tabtxtXpLv[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set lvl='"+Panneau.listPanel.get(i).tabtxtXpLv[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set ptsdestin='"+Panneau.listPanel.get(i).tabtxtXpLv[2].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+                    //on sauvegarde toutes les valeurs du pognon
+                    conn.createStatement().executeUpdate("update personnage set berylium='"+Panneau.listPanel.get(i).tabTxtArgent[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set thritil='"+Panneau.listPanel.get(i).tabTxtArgent[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set gold='"+Panneau.listPanel.get(i).tabTxtArgent[2].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set argent='"+Panneau.listPanel.get(i).tabTxtArgent[3].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set cuivre='"+Panneau.listPanel.get(i).tabTxtArgent[4].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+
+                    conn.createStatement().executeUpdate("update personnage set couragemod ='"+Panneau.listPanel.get(i).tabTxtCaracMod[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set intelligencemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set charismemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[2].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set adressemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[3].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set forcemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[4].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+                    conn.createStatement().executeUpdate("update personnage set attaquemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[8].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                    conn.createStatement().executeUpdate("update personnage set parademod='"+Panneau.listPanel.get(i).tabTxtCaracMod[9].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+
+
+
+
+
                    /*PreparedStatement preparedStatementBarda = conn.prepareStatement("update barda set nombre=? where fk_perso='"+Panneau.listID.get(i)+"' ");
                     System.out.println(Panneau.listofModelArme.get(0).getValueAt(0,0));
                     for (int j = 0; j < Panneau.listofModelBarda.size() ; j++) {

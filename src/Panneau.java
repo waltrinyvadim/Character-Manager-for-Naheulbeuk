@@ -135,6 +135,7 @@ class Panneau extends JPanel {
             tabPanArgent[i].setLayout(new BorderLayout());
             tabLabArgent[i].setText(tabStringLabArgent[i]);
             tabTxtArgent[i].setHorizontalAlignment(JTextField.CENTER);
+            tabTxtArgent[i].setText("0");
             tabLabArgent[i].setPreferredSize(dimensionlabBery);
         }
 

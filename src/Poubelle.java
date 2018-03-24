@@ -1,6 +1,18 @@
 //public class Poubelle {
 
 
+
+/* //requette pour la sauvegarde des pv et des pa
+                    PreparedStatement preparedStatementPvEa = conn.prepareStatement("update personnage set pvmax=?,pvactuel=?,pamax=?,paactuel=? where name='"+listOfOnglet.get(i)+"'");
+                    preparedStatementPvEa.setString(1,Panneau.listPanel.get(i).tabTxtStatPvEa[0].getText());
+                    preparedStatementPvEa.setString(2,Panneau.listPanel.get(i).tabTxtActualPvEa[0].getText());
+                    preparedStatementPvEa.setString(3,Panneau.listPanel.get(i).tabTxtStatPvEa[1].getText());
+                    preparedStatementPvEa.setString(4,Panneau.listPanel.get(i).tabTxtActualPvEa[1].getText());
+                    preparedStatementPvEa.execute();
+                    */
+
+
+
        /*
 //xp
         JPanel panXp = new JPanel();
