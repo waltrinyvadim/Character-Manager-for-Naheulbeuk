@@ -276,7 +276,7 @@ class MainS {
 
                    conn.createStatement().executeUpdate("update personnage set pvmax='"+Panneau.listPanel.get(i).tabTxtStatPvEa[0].getText()+"' where id='"+Panneau.listID.get(i)+"'");
 
-
+                    System.out.println("ohlo");
                    /*PreparedStatement preparedStatementBarda = conn.prepareStatement("update barda set nombre=? where fk_perso='"+Panneau.listID.get(i)+"' ");
                     System.out.println(Panneau.listofModelArme.get(0).getValueAt(0,0));
                     for (int j = 0; j < Panneau.listofModelBarda.size() ; j++) {

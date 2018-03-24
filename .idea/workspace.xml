@@ -6,7 +6,11 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="28a1aff0-4099-4ada-bfe0-92a1996ff7a8" name="Default" comment="" />
+    <list default="true" id="28a1aff0-4099-4ada-bfe0-92a1996ff7a8" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JDR_naheulbeuk.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainS.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,8 +46,8 @@
       <file leaf-file-name="MainS.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MainS.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="276" column="140" selection-start-line="276" selection-start-column="140" selection-end-line="276" selection-end-column="140" />
+            <state relative-caret-position="338">
+              <caret line="278" column="44" selection-start-line="278" selection-start-column="44" selection-end-line="278" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="class#2478:5008" />
@@ -64,7 +68,7 @@
       <file leaf-file-name="Panneau.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Panneau.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5760">
+            <state relative-caret-position="5805">
               <caret line="387" selection-start-line="387" selection-end-line="387" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -76,7 +80,7 @@
       <file leaf-file-name="DialogBox.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DialogBox.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3285">
+            <state relative-caret-position="3375">
               <caret line="225" selection-start-line="225" selection-end-line="225" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -161,6 +165,9 @@
       <replace>eaMax</replace>
       <replace>eaActuel</replace>
     </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -302,29 +309,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="JDR_Manger" type="b2602c69:ProjectViewProjectNode" />
-              <item name="first" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JDR_Manger" type="b2602c69:ProjectViewProjectNode" />
-              <item name="first" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JDR_Manger" type="b2602c69:ProjectViewProjectNode" />
-              <item name="first" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Image" type="462c0819:PsiDirectoryNode" />
+              <item name="jdr_naheulbeuk" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
@@ -406,16 +402,14 @@
       <listeners />
     </configuration>
     <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
+      <module name="first" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="first" />
-      <envs />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
@@ -528,11 +522,15 @@
       <workItem from="1521478604096" duration="1933000" />
       <workItem from="1521810852343" duration="7520000" />
       <workItem from="1521852935390" duration="96000" />
+      <workItem from="1521858939712" duration="31000" />
+      <workItem from="1521858978928" duration="4000" />
+      <workItem from="1521858996153" duration="93000" />
+      <workItem from="1521859093149" duration="61000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="149669000" />
+    <option name="totallyTimeSpent" value="149858000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -545,10 +543,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32969698" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32848486" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
@@ -556,11 +554,11 @@
       <window_info anchor="right" id="Maven Projects" order="3" weight="0.3297568" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49930555" weight="0.22909091" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49939394" visible="true" weight="0.15736766" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49939394" visible="true" weight="0.16595136" />
       <window_info anchor="right" id="Database" order="4" visible="true" weight="0.14949928" />
       <window_info id="Learn" order="2" weight="0.33404863" />
       <window_info id="Structure" order="1" sideWeight="0.50060606" side_tool="true" weight="0.12875536" />
@@ -569,7 +567,6 @@
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.41333333" />
       <window_info id="Favorites" order="2" sideWeight="0.50060606" side_tool="true" weight="0.12875536" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32848486" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Database Console" order="9" weight="0.32848486" />
@@ -596,13 +593,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/CollecteurStatsMod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Panneau.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -640,10 +630,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#actionSendData#0;class#DialogAddArme#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -668,10 +654,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#actionSendData#0;class#DialogAddArme#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -887,9 +869,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="60" column="130" selection-start-line="60" selection-start-column="130" selection-end-line="60" selection-end-column="130" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -933,9 +912,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1050">
           <caret line="70" column="16" selection-start-line="70" selection-start-column="16" selection-end-line="70" selection-end-column="130" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -943,10 +919,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-671">
           <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#actionSendData#0;class#DialogAddArme#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -954,9 +926,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4481">
           <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -981,6 +950,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/personnage">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Collecteur.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -988,9 +964,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Panneau.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5805">
+          <caret line="387" selection-start-line="387" selection-end-line="387" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/DialogBox.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3285">
+        <state relative-caret-position="3375">
           <caret line="225" selection-start-line="225" selection-end-line="225" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1000,27 +986,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Panneau.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5760">
-          <caret line="387" selection-start-line="387" selection-end-line="387" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/personnage">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/first.iml">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MainS.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="276" column="140" selection-start-line="276" selection-start-column="140" selection-end-line="276" selection-end-column="140" />
+        <state relative-caret-position="338">
+          <caret line="278" column="44" selection-start-line="278" selection-start-column="44" selection-end-line="278" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#2478:5008" />
