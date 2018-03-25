@@ -7,13 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28a1aff0-4099-4ada-bfe0-92a1996ff7a8" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/34941203-0bcc-42d7-a5a3-15c26cde8834.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/34941203-0bcc-42d7-a5a3-15c26cde8834.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DialogBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DialogBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Panneau.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Panneau.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Poubelle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Poubelle.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -65,6 +60,15 @@
         <item name="public: schema" type="a16502c0:PostgresImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="DB_perso@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="DB_perso: database" type="6d9b600a:PostgresImplModel$Database" />
+        <item name="public: schema" type="a16502c0:PostgresImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="barda: table" type="a93d6ac6:PostgresImplModel$LocalTable" />
+      </path>
     </expand>
     <select />
   </component>
@@ -73,11 +77,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainS.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainS.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MainS.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-281">
-              <caret line="205" column="30" selection-start-line="205" selection-start-column="30" selection-end-line="205" selection-end-column="30" />
+            <state relative-caret-position="201">
+              <caret line="276" column="178" selection-start-line="276" selection-start-column="178" selection-end-line="276" selection-end-column="178" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="class#2478:5008" />
@@ -89,7 +93,7 @@
       <file leaf-file-name="Panneau.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Panneau.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-670">
+            <state relative-caret-position="-1599">
               <caret line="137" column="38" selection-start-line="137" selection-start-column="38" selection-end-line="137" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -101,13 +105,31 @@
       <file leaf-file-name="DialogBox.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DialogBox.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="223" selection-start-line="223" selection-end-line="223" />
+            <state relative-caret-position="-6">
+              <caret line="192" column="13" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#checkForPvEa#0;class#DialogBox#0" />
                 <element signature="method#checkRestriction#0;class#DialogBox#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="personnage" pinned="false" current-in-tab="false">
+        <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/personnage">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="barda" pinned="false" current-in-tab="true">
+        <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/barda">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -123,8 +145,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>courage</find>
-      <find>attaque</find>
       <find>Courage</find>
       <find>0</find>
       <find>i</find>
@@ -153,10 +173,10 @@
       <find>integer.parseINt(</find>
       <find>tablabstatcaracbase</find>
       <find>pan</find>
+      <find>adressemod</find>
+      <find>charismemod</find>
     </findStrings>
     <replaceStrings>
-      <replace>Adresse</replace>
-      <replace>Force</replace>
       <replace>lab</replace>
       <replace>Secondaire</replace>
       <replace>MagiePhy</replace>
@@ -185,6 +205,8 @@
       <replace>eaActuel</replace>
       <replace>tabTxtCaracMod</replace>
       <replace>panneau</replace>
+      <replace>charismemod</replace>
+      <replace>forcemod</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -330,7 +352,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -347,8 +369,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -553,11 +575,13 @@
       <workItem from="1521858996153" duration="93000" />
       <workItem from="1521859093149" duration="61000" />
       <workItem from="1521884923815" duration="5539000" />
+      <workItem from="1521927363951" duration="164000" />
+      <workItem from="1521993543009" duration="5097000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155397000" />
+    <option name="totallyTimeSpent" value="160658000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -585,8 +609,9 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
+      <window_info anchor="bottom" id="Database Console" order="9" weight="0.32848486" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49939394" visible="true" weight="0.16809729" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49939394" visible="true" weight="0.17238913" />
       <window_info anchor="right" id="Database" order="4" visible="true" weight="0.14949928" />
       <window_info id="Learn" order="2" weight="0.33404863" />
       <window_info id="Structure" order="1" sideWeight="0.50060606" side_tool="true" weight="0.12875536" />
@@ -597,7 +622,6 @@
       <window_info id="Favorites" order="2" sideWeight="0.50060606" side_tool="true" weight="0.12875536" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Database Console" order="9" weight="0.32848486" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32969698" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -621,6 +645,28 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/Panneau.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2010">
+          <caret line="137" column="38" selection-start-line="137" selection-start-column="38" selection-end-line="137" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DialogBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3270">
+          <caret line="223" selection-start-line="223" selection-end-line="223" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#checkForPvEa#0;class#DialogBox#0" />
+            <element signature="method#checkRestriction#0;class#DialogBox#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/DialogBox.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3555">
@@ -954,13 +1000,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/barda">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Poubelle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -975,26 +1014,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitattributes">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Panneau.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-670">
-          <caret line="137" column="38" selection-start-line="137" selection-start-column="38" selection-end-line="137" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/DialogBox.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="223" selection-start-line="223" selection-end-line="223" />
+        <state relative-caret-position="-6">
+          <caret line="192" column="13" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#checkForPvEa#0;class#DialogBox#0" />
@@ -1010,14 +1033,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Panneau.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1599">
+          <caret line="137" column="38" selection-start-line="137" selection-start-column="38" selection-end-line="137" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/MainS.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-281">
-          <caret line="205" column="30" selection-start-line="205" selection-start-column="30" selection-end-line="205" selection-end-column="30" />
+        <state relative-caret-position="201">
+          <caret line="276" column="178" selection-start-line="276" selection-start-column="178" selection-end-line="276" selection-end-column="178" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#2478:5008" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/barda">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>

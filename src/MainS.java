@@ -161,52 +161,22 @@ class MainS {
                         panneau.tabLabStatCaracBase[9].setText(resultSetPerso.getString("parade"));
 
 
-                        ;
+
 
 
                         //on check d'abord si les valeurs des carac modifié sont nul si elle le sont on affiche un ligne vide
                         //sinon on ajoute la valeur
 
-                        //test pour courage mod
-                        if(resultSetPerso.getString("couragemod")==null){
-                            panneau.tabTxtCaracMod[0].setText("");
-                        }
-                        else{panneau.tabTxtCaracMod[0].setText(resultSetPerso.getString("courageMod")); }
+                        panneau.tabTxtCaracMod[0].setText(resultSetPerso.getString("couragemod"));
+                        panneau.tabTxtCaracMod[1].setText(resultSetPerso.getString("intelligencemod"));
+                        panneau.tabTxtCaracMod[2].setText(resultSetPerso.getString("charismemod"));
+                        panneau.tabTxtCaracMod[3].setText(resultSetPerso.getString("adressemod"));
+                        panneau.tabTxtCaracMod[4].setText(resultSetPerso.getString("forcemod"));
+                        panneau.tabTxtCaracMod[8].setText(resultSetPerso.getString("attaquemod"));
+                        panneau.tabTxtCaracMod[9].setText(resultSetPerso.getString("parademod"));
 
-                        //test pour intelligence mod
-                        if(resultSetPerso.getString("intelligencemod")==null){
-                            panneau.tabTxtCaracMod[1].setText("");
-                        }else{panneau.tabTxtCaracMod[1].setText(resultSetPerso.getString("intelligenceMod"));}
-
-                        //test pour charisme mod
-                        if(resultSetPerso.getString("charismemod")==null){
-                            panneau.tabTxtCaracMod[2].setText("");
-                        }else {panneau.tabTxtCaracMod[2].setText(resultSetPerso.getString("charismeMod"));}
-
-                        //test pour adresse mod
-                        if(resultSetPerso.getString("adressemod")==null){
-                            panneau.tabTxtCaracMod[3].setText("");
-                        }else{panneau.tabTxtCaracMod[3].setText(resultSetPerso.getString("adresseMod"));}
-
-                        //test pour force mod
-                        if(resultSetPerso.getString("forcemod")==null){
-                            panneau.tabTxtCaracMod[4].setText("");
-                        }else{panneau.tabTxtCaracMod[4].setText(resultSetPerso.getString("forceMod"));}
-
-                        //test pour attaque mod
-                        if(resultSetPerso.getString("attaquemod")==null){
-                            panneau.tabTxtCaracMod[8].setText("");
-                        }else{panneau.tabTxtCaracMod[8].setText(resultSetPerso.getString("attaqueMod"));}
-
-                        //test pour parade mod
-                        if(resultSetPerso.getString("parademod")==null){
-                            panneau.tabTxtCaracMod[9].setText("");
-                        }else{panneau.tabTxtCaracMod[9].setText(resultSetPerso.getString("paradeMod"));}
-
-                       /* //ici on essaye de remplir le champs de magie phy des lors qu'il ya une valeur d'adresse et d'intelligence modifier
-                        if(resultSetPerso.getString("adressemod")==null||resultSetPerso.getString("intelligencemod")==null){
-                            panneau.tabTxtCaracMod[5].setText("");
-                        }else{
+                        //ici on essaye de remplir le champs de magie phy des lors qu'il ya une valeur d'adresse et d'intelligence modifier
+                        if(!resultSetPerso.getString("adressemod").equals("")&&!resultSetPerso.getString("intelligencemod").equals("")){
                             int value1=Integer.parseInt(resultSetPerso.getString("adressemod"));
                             int value2=Integer.parseInt(resultSetPerso.getString("intelligencemod"));
                             int moyenne=(value1+value2)/2;
@@ -214,24 +184,21 @@ class MainS {
                         }
 
                         //de même pour magie psy avec charisme et inlligence mod
-                        if(resultSetPerso.getString("charismemod")==null||resultSetPerso.getString("intelligencemod")==null){
-                            panneau.tabTxtCaracMod[6].setText("");
-                        }else{
+                        if(!resultSetPerso.getString("charismemod").equals("")&&!resultSetPerso.getString("intelligencemod").equals("")){
                             int value1=Integer.parseInt(resultSetPerso.getString("charismemod"));
                             int value2=Integer.parseInt(resultSetPerso.getString("intelligencemod"));
                             int moyenne=(value1+value2)/2;
                             panneau.tabTxtCaracMod[6].setText(Integer.toString(moyenne));
                         }
 
-                        if(resultSetPerso.getString("forcemod")==null||resultSetPerso.getString("couragemod")==null||resultSetPerso.getString("intelligencemod")==null){
-                            panneau.tabTxtCaracMod[7].setText("");
-                        }else{
+                        //même raisonnement avec force intelligence et courrage pour la resistance à la magie
+                        if(!resultSetPerso.getString("forcemod").equals("")&&!resultSetPerso.getString("intelligencemod").equals("")&&!resultSetPerso.getString("couragemod").equals("")){
                             int value1=Integer.parseInt(resultSetPerso.getString("forcemod"));
-                            int value3=Integer.parseInt(resultSetPerso.getString("couragemod"));
                             int value2=Integer.parseInt(resultSetPerso.getString("intelligencemod"));
+                            int value3=Integer.parseInt(resultSetPerso.getString("couragemod"));
                             int moyenne=(value1+value2+value3)/3;
                             panneau.tabTxtCaracMod[7].setText(Integer.toString(moyenne));
-                        }*/
+                        }
 
                         //ligne de code qui recupère le ou les armes qui ont un foreign key avec l'id du personnage que
                         //l'on est en train d'importer
@@ -303,15 +270,15 @@ class MainS {
                     conn.createStatement().executeUpdate("update personnage set parademod='"+Panneau.listPanel.get(i).tabTxtCaracMod[9].getText()+"'where id='"+Panneau.listID.get(i)+"'");
 
 
+                    //PreparedStatement preparedStatementBarda = conn.prepareStatement("update barda set nombre=? where fk_perso='"+Panneau.listID.get(i)+"' ");
 
-                    System.out.println("hello world");
+                    for (int j = 0; j < Panneau.listofModelBarda.get(i).getRowCount() ; j++) {
+                        System.out.println(Panneau.listofModelBarda.get(i).getValueAt(j,1));
+                        conn.createStatement().executeUpdate("update barda set nombre='"+Panneau.listofModelBarda.get(i).getValueAt(j,1)+"' where fk_perso='"+Panneau.listID.get(i)+"'");
+                       // preparedStatementBarda.setString(1,(String)Panneau.listofModelBarda.get(i).getValueAt(j,1));
+                    }
 
 
-                   /*PreparedStatement preparedStatementBarda = conn.prepareStatement("update barda set nombre=? where fk_perso='"+Panneau.listID.get(i)+"' ");
-                    System.out.println(Panneau.listofModelArme.get(0).getValueAt(0,0));
-                    for (int j = 0; j < Panneau.listofModelBarda.size() ; j++) {
-                       preparedStatementCarac.setString(1,(String)Panneau.listofModelBarda.get(i).getValueAt(j,0));
-                    }*/
                 }
             } catch (Exception e1) {
                 e1.printStackTrace();
