@@ -1,14 +1,14 @@
-public class CollecteurStatsMod {
-    final int courageMod;
-    final int forceMod;
-    final int intelligenceMod;
-    final int charismeMod;
-    final int adresseMod;
-    final int magiePhy;
-    final int magiePsy;
-    final int resMagie;
-    final int attMod;
-    final int paradeMod;
+class CollecteurStatsMod {
+    private final int courageMod;
+    private final int forceMod;
+    private final int intelligenceMod;
+    private final int charismeMod;
+    private final int adresseMod;
+    private final int magiePhy;
+    private final int magiePsy;
+    private final int resMagie;
+    private final int attMod;
+    private final int paradeMod;
     public CollecteurStatsMod(int pCourage,int pForce,int pIntelligence,int pCharisme,int pAdresse,
                               int pMagiePhy,int pMagiepsy,int pResMagie,int pAttMod,int pParadeMod){
         this.courageMod=pCourage;

@@ -46,6 +46,10 @@ class Panneau extends JPanel {
     final JTextField[] tabTxtStatPvEa = {txtMaxPv,txtMaxEa};
     final JTextField[] tabTxtActualPvEa = {txtActuelPv,txtActuelEa};
 
+    public JLabel getLabTxtNom() {
+        return labTxtNom;
+    }
+
     public Panneau(){
         ///////VARIABLE VARIABLE VARIABLE
         //on declare toute nos variable d'un coup pour pouvoir les utiliser comme bon nous semble par la suite

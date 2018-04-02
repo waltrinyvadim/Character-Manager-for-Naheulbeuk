@@ -78,7 +78,7 @@ class DialogAddArme extends JDialog {
         mainPan.add(panelBouton);
     }
 
-    public void actionSendData (String nomArme,String degatArme,String ruptureArme){
+    private void actionSendData(String nomArme, String degatArme, String ruptureArme){
         //ICI ON AJOUTE AU TABLE MODEL DU TABLEAU D'ARME L'ITEM QUE L'ON VIENT DE CRÉE GRACE AU PANEL DE DIALOGUE
         String[] newLine = {nomArme,degatArme,ruptureArme};
         //ici on selectionne le tablemodel du tableau du joueur dont l'onglet est actif et on lui ajoute la nouvelle ligne

@@ -2,7 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 class MainS {
@@ -90,6 +94,15 @@ class MainS {
                                 tabOnglet,
                                 tabOnglet[0]);
 
+                        //ici on supprime le personnage de la base de donnée
+                        try {
+                            conn.createStatement().executeUpdate("delete from personnage where name='"+persoToSupprimer+"'");
+                        }
+                        catch (Exception e1){
+                            e1.printStackTrace();
+                        }
+
+                        //ici on supprime le personnage de l'interface
                         for (int i = 0; i < tabOnglet.length; i++) {
                             if (tabOnglet[i].equals(persoToSupprimer)){
                                 onglet.remove(i);
@@ -119,7 +132,6 @@ class MainS {
                         //a faire après
 
                       int id= resultSetPerso.getInt("id");
-                      System.out.println("le perso "+resultSetPerso.getString("name")+" à l'id numéro : "+id);
                       Panneau.listID.add(id);
 
 
@@ -159,9 +171,6 @@ class MainS {
                                                                                     resultSetPerso.getInt("force"))/3));
                         panneau.tabLabStatCaracBase[8].setText(resultSetPerso.getString("attaque"));
                         panneau.tabLabStatCaracBase[9].setText(resultSetPerso.getString("parade"));
-
-
-
 
 
                         //on check d'abord si les valeurs des carac modifié sont nul si elle le sont on affiche un ligne vide
@@ -228,64 +237,52 @@ class MainS {
                             panneau.tablemodelBarda.addRow(lineAdd);
                         }
                     }
-
                 }catch (Exception e1){
-
+                    e1.printStackTrace();
                 }
                 }
         };
 
         //ICI LE FONCTION DE SAUVEGARDE DE L'ETAT DES PERSONNAGES VERS LA DATABASE
-        ActionListener actSave = e -> {
-            try {
-                for (int i = 0; i < onglet.getTabCount(); i++) {
+        ActionListener actSave = e -> saveIntoDb();
 
+        //listener qui permert la sauvegarde lors de la fermeture de la fenêtre
+        WindowListener windowListener = new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
 
-                    //on sauvegarde les info concernant les pv
-                    conn.createStatement().executeUpdate("update personnage set pvmax='"+Panneau.listPanel.get(i).tabTxtStatPvEa[0].getText()+"' where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set pamax='"+Panneau.listPanel.get(i).tabTxtStatPvEa[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set pvactuel='"+Panneau.listPanel.get(i).tabTxtActualPvEa[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set paactuel='"+Panneau.listPanel.get(i).tabTxtActualPvEa[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+            }
 
-                    //on sauvegarde le lvl,l'xp et les pts de destin
-                    conn.createStatement().executeUpdate("update personnage set xp='"+Panneau.listPanel.get(i).tabtxtXpLv[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set lvl='"+Panneau.listPanel.get(i).tabtxtXpLv[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set ptsdestin='"+Panneau.listPanel.get(i).tabtxtXpLv[2].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+            @Override
+            public void windowClosing(WindowEvent e) {
+                saveIntoDb();
+            }
 
-                    //on sauvegarde toutes les valeurs du pognon
-                    conn.createStatement().executeUpdate("update personnage set berylium='"+Panneau.listPanel.get(i).tabTxtArgent[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set thritil='"+Panneau.listPanel.get(i).tabTxtArgent[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set gold='"+Panneau.listPanel.get(i).tabTxtArgent[2].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set argent='"+Panneau.listPanel.get(i).tabTxtArgent[3].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set cuivre='"+Panneau.listPanel.get(i).tabTxtArgent[4].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+            @Override
+            public void windowClosed(WindowEvent e) {
+                saveIntoDb();
+            }
 
+            @Override
+            public void windowIconified(WindowEvent e) {
 
-                    conn.createStatement().executeUpdate("update personnage set couragemod ='"+Panneau.listPanel.get(i).tabTxtCaracMod[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set intelligencemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set charismemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[2].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set adressemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[3].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set forcemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[4].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+            }
 
-                    conn.createStatement().executeUpdate("update personnage set attaquemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[8].getText()+"'where id='"+Panneau.listID.get(i)+"'");
-                    conn.createStatement().executeUpdate("update personnage set parademod='"+Panneau.listPanel.get(i).tabTxtCaracMod[9].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+            @Override
+            public void windowDeiconified(WindowEvent e) {
 
+            }
 
-                    //PreparedStatement preparedStatementBarda = conn.prepareStatement("update barda set nombre=? where fk_perso='"+Panneau.listID.get(i)+"' ");
+            @Override
+            public void windowActivated(WindowEvent e) {
 
-                    for (int j = 0; j < Panneau.listofModelBarda.get(i).getRowCount() ; j++) {
-                        System.out.println(Panneau.listofModelBarda.get(i).getValueAt(j,1));
-                        conn.createStatement().executeUpdate("update barda set nombre='"+Panneau.listofModelBarda.get(i).getValueAt(j,1)+"' where fk_perso='"+Panneau.listID.get(i)+"'");
-                       // preparedStatementBarda.setString(1,(String)Panneau.listofModelBarda.get(i).getValueAt(j,1));
-                    }
+            }
 
+            @Override
+            public void windowDeactivated(WindowEvent e) {
 
-                }
-            } catch (Exception e1) {
-                e1.printStackTrace();
             }
         };
-
-
 
         //ajout du listener sur les boutons
         butAddPLayer.addActionListener(act);
@@ -294,9 +291,54 @@ class MainS {
         butImportFromDb.addActionListener(actImport);
         butSave.addActionListener(actSave);
 
+        //ajout du listener qui permer la sauvegarde à la fenêtre principale
+        frame.addWindowListener(windowListener);
 
         //le blabla habituel
         frame.getContentPane().add(onglet);
         frame.setVisible(true);
+    }
+
+    private static void saveIntoDb() {
+        try {
+            for (int i = 0; i < onglet.getTabCount(); i++) {
+
+                //on sauvegarde les info concernant les pv
+                conn.createStatement().executeUpdate("update personnage set pvmax='"+Panneau.listPanel.get(i).tabTxtStatPvEa[0].getText()+"' where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set pamax='"+Panneau.listPanel.get(i).tabTxtStatPvEa[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set pvactuel='"+Panneau.listPanel.get(i).tabTxtActualPvEa[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set paactuel='"+Panneau.listPanel.get(i).tabTxtActualPvEa[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+                //on sauvegarde le lvl,l'xp et les pts de destin
+                conn.createStatement().executeUpdate("update personnage set xp='"+Panneau.listPanel.get(i).tabtxtXpLv[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set lvl='"+Panneau.listPanel.get(i).tabtxtXpLv[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set ptsdestin='"+Panneau.listPanel.get(i).tabtxtXpLv[2].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+                //on sauvegarde toutes les valeurs du pognon
+                conn.createStatement().executeUpdate("update personnage set berylium='"+Panneau.listPanel.get(i).tabTxtArgent[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set thritil='"+Panneau.listPanel.get(i).tabTxtArgent[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set gold='"+Panneau.listPanel.get(i).tabTxtArgent[2].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set argent='"+Panneau.listPanel.get(i).tabTxtArgent[3].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set cuivre='"+Panneau.listPanel.get(i).tabTxtArgent[4].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+                //ici on sauvegarde les valeurs des carac modifier
+                conn.createStatement().executeUpdate("update personnage set couragemod ='"+Panneau.listPanel.get(i).tabTxtCaracMod[0].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set intelligencemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[1].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set charismemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[2].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set adressemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[3].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set forcemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[4].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+                //ici on sauvegarde l'attaque et la parade
+                conn.createStatement().executeUpdate("update personnage set attaquemod='"+Panneau.listPanel.get(i).tabTxtCaracMod[8].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+                conn.createStatement().executeUpdate("update personnage set parademod='"+Panneau.listPanel.get(i).tabTxtCaracMod[9].getText()+"'where id='"+Panneau.listID.get(i)+"'");
+
+                //ici on sauvegarde les modifications de la valeur du nombre d'item apporté aux element existant dans la liste
+                for (int j = 0; j < Panneau.listofModelBarda.get(i).getRowCount() ; j++) {
+                    conn.createStatement().executeUpdate("update barda set nombre='"+Panneau.listofModelBarda.get(i).getValueAt(j,1)+"' where fk_perso='"+Panneau.listID.get(i)+"'");
+                }
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 }

@@ -185,14 +185,10 @@ class DialogBox extends JDialog {
             if (e.getSource()==okbutton){
                 Panneau pan = new Panneau();
 
-
-
-
                 //recuperation de toute les variable dans un seul objet parce que c'est plus simple ohlo
                 info = new Collecteur(nom.getText(),(String)jboxMetier.getSelectedItem(),(String)jboxOrigine.getSelectedItem(),
                         (String) jboxSexe.getSelectedItem(),pan.tabTxtStatPvEa[0],pan.tabTxtActualPvEa[0],pan.tabTxtStatPvEa[1],
                         pan.tabTxtActualPvEa[1],scoreCourage,scoreForce,scoreIntelligence,scoreCharisme,scoreAdresse,pognon,ptsDestin);
-
 
                 //ici on donne les pv et l'energie astrale au perso en fonction de leur origine/metier et on rentre cette valeur dans les champs de texte
                 checkForPvEa(info.origine,info.metier,info.pvMax,info.pvActuel,info.eaMax,info.eaActuel);
@@ -221,15 +217,10 @@ class DialogBox extends JDialog {
                 pan.tabLabStatCaracBase[8].setText("8");
                 pan.tabLabStatCaracBase[9].setText("10");
 
-
-
-
                 /////-------------------//////
                 //ON ENVOIS LES DONNÉES A LA DATA BASE
                 try {
                     Statement state = MainS.conn.createStatement();
-
-
                     //ligne qui envoit toutes les informations du personnage  à la putin de fucking base de donner
                     state.executeUpdate("INSERT INTO personnage (name, origine, metier, sexe, pvmax, pvactuel, pamax, paactuel, xp, lvl," +
                             " ptsdestin, berylium, thritil, gold, argent, cuivre, courage, intelligence, charisme, adresse, force, attaque," +
@@ -245,11 +236,11 @@ class DialogBox extends JDialog {
                             id=resultSetid.getInt(1);
                     }
                     Panneau.listID.add(id);
-
-
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
+
+                setAttPar(info.origine,info.metier,pan.tabLabStatCaracBase[8],pan.tabLabStatCaracBase[9]);
 
                 Panneau.listPanel.add(pan);
                 DialogBox.super.dispose();
@@ -257,9 +248,7 @@ class DialogBox extends JDialog {
         };
         cancelButton.addActionListener(controlListener);
         okbutton.addActionListener(controlListener);
-
     }
-
 
     //dans  cette methode on va changer les valeurs des caractéristique spécifique à chaque origine/metier
     private void checkForPvEa(String origine, String metier, JTextField pvMax, JTextField pvActuel, JTextField eaMax, JTextField eaActuel){
@@ -486,6 +475,26 @@ class DialogBox extends JDialog {
         for (String anArrayMetier : arrayMetier) {
             jboxMetier.addItem(anArrayMetier);
         }
+    }
+
+    //à faire le set d'attaque et parade pour tous les metier/origines
+    //des choix devront être fait par les joueurs par le biais de dialogbox à mon avis
+    private void setAttPar(String _origine,String _metier,JLabel _att,JLabel _parr){
+        if(_origine.equals("barebare")||_origine.equals("orque")||_origine.equals("ogre")){
+            _att.setText("9");
+            _parr.setText("9");
+        }
+
+        if(_origine.equals("gnômes des fôrets")){
+            _att.setText("10");
+            _parr.setText("8");
+        }
+
+        if(_metier.equals("assassin")){
+            _att.setText("11");
+            _parr.setText("8");
+        }
+
     }
 
 }
