@@ -103,7 +103,6 @@ class DialogAddArme extends JDialog {
 
             //LA J'ENVOIS L'ARME DIRECTEMENT À LA BASE DE DONNÉE
             state.executeUpdate("INSERT into arme(fk_perrso, rupture, dégats, nom) values('"+idFK +"','"+ruptureArme+"','"+degatArme+"','"+nomArme+"') ");
-
         }catch (Exception e1){
             e1.printStackTrace();
         }

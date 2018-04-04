@@ -14,7 +14,7 @@ class DialogBox extends JDialog {
 
     public DialogBox(JFrame parent,String title,boolean modal){
         super(parent,title,modal);
-        this.setSize(500,450);
+        this.setSize(500,515);
         this.setResizable(false);
         this.setAlwaysOnTop(true);
         this.setLocationRelativeTo(null);
@@ -153,6 +153,30 @@ class DialogBox extends JDialog {
         panelDestin.add(destin);
 
 
+        //partie à choisir
+        JPanel jPanelGame = new JPanel();
+        jPanelGame.setPreferredSize(new Dimension(485,60));
+        jPanelGame.setBorder(BorderFactory.createTitledBorder("choisir la partie"));
+        JComboBox<String> jComboBoxGame = new JComboBox<>();
+        JLabel jLabelGame = new JLabel("nom : ");
+
+        try{
+            //ici on récupère toutes les parties dans la db
+            Statement statementGame = MainS.conn.createStatement();
+            ResultSet resultSetGame =statementGame.executeQuery("SELECT * from partie");
+
+            while (resultSetGame.next()){
+                jComboBoxGame.addItem(resultSetGame.getString("nom"));
+            }
+
+        }catch (Exception e1){
+            e1.printStackTrace();
+        }
+        jPanelGame.add(jLabelGame);
+        jPanelGame.add(jComboBoxGame);
+
+
+
         checkRestriction(scoreCourage,scoreIntelligence,scoreCharisme,scoreAdresse,scoreForce,arrayOrigine,arrayMetier,jboxMetier,jboxOrigine);
 
         //BOUTON DE CONTROLE
@@ -174,6 +198,7 @@ class DialogBox extends JDialog {
         content.add(panelDestin);
         content.add(panOrigne);
         content.add(panMetier);
+        content.add(jPanelGame);
         content.add(okbutton);
         content.add(cancelButton);
 
@@ -221,13 +246,22 @@ class DialogBox extends JDialog {
                 //ON ENVOIS LES DONNÉES A LA DATA BASE
                 try {
                     Statement state = MainS.conn.createStatement();
+
+                    //ici on récupère l'id de la partie selectionner pour l'utiliser comme foreign key pour la table personnage
+                    ResultSet resultSetIDGame = state.executeQuery("SELECT idpartie from partie where nom='"+jComboBoxGame.getSelectedItem()+"'");
+                    int idPartie=0;
+                    while(resultSetIDGame.next()){
+                        idPartie=resultSetIDGame.getInt("idpartie");
+                    }
+
                     //ligne qui envoit toutes les informations du personnage  à la putin de fucking base de donner
                     state.executeUpdate("INSERT INTO personnage (name, origine, metier, sexe, pvmax, pvactuel, pamax, paactuel, xp, lvl," +
                             " ptsdestin, berylium, thritil, gold, argent, cuivre, courage, intelligence, charisme, adresse, force, attaque," +
-                            " parade) values('" + info.nom + "','" + info.origine + "','" + info.metier + "','" + info.sexe + "'" +
+                            " parade,fk_partie) values('" + info.nom + "','" + info.origine + "','" + info.metier + "','" + info.sexe + "'" +
                             ",'"+info.pvMax.getText()+"','"+info.pvActuel.getText()+"','"+info.eaMax.getText()+"','"+info.eaActuel.getText()+"',0,1,'"
                             + info.ptsDestin + "',0,0,'" + info.pognon + "',0,0,'" + info.courage + "','" + info.intelligence + "','" + info.charisme + "'" +
-                            ",'" + info.adresse + "','" + info.force + "',8,10)");
+                            ",'" + info.adresse + "','" + info.force + "',8,10,'"+idPartie+"')");
+
 
                     //on ajoute l'id du personnage qu ivient d'etre créer a la liste des id
                     ResultSet resultSetid =state.executeQuery("select * from personnage_id_seq");
@@ -236,12 +270,12 @@ class DialogBox extends JDialog {
                             id=resultSetid.getInt(1);
                     }
                     Panneau.listID.add(id);
+
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
 
                 setAttPar(info.origine,info.metier,pan.tabLabStatCaracBase[8],pan.tabLabStatCaracBase[9]);
-
                 Panneau.listPanel.add(pan);
                 DialogBox.super.dispose();
             }
