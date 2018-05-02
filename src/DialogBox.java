@@ -64,6 +64,7 @@ class DialogBox extends JDialog {
         jboxSexe = new JComboBox();
         String[] listeSexe = {"homme","femme","?"};
         for (String aListeSexe : listeSexe) {
+            //noinspection unchecked
             jboxSexe.addItem(aListeSexe);
         }
         JLabel labelSexe = new JLabel("sexe :");
@@ -152,7 +153,6 @@ class DialogBox extends JDialog {
         panelDestin.add(labelDestin);
         panelDestin.add(destin);
 
-
         //partie à choisir
         JPanel jPanelGame = new JPanel();
         jPanelGame.setPreferredSize(new Dimension(485,60));
@@ -160,22 +160,9 @@ class DialogBox extends JDialog {
         JComboBox<String> jComboBoxGame = new JComboBox<>();
         JLabel jLabelGame = new JLabel("nom : ");
 
-        try{
-            //ici on récupère toutes les parties dans la db
-            Statement statementGame = MainS.conn.createStatement();
-            ResultSet resultSetGame =statementGame.executeQuery("SELECT * from partie");
-
-            while (resultSetGame.next()){
-                jComboBoxGame.addItem(resultSetGame.getString("nom"));
-            }
-
-        }catch (Exception e1){
-            e1.printStackTrace();
-        }
+        DialogBoxManuel.getPartieToMenu(jComboBoxGame);
         jPanelGame.add(jLabelGame);
         jPanelGame.add(jComboBoxGame);
-
-
 
         checkRestriction(scoreCourage,scoreIntelligence,scoreCharisme,scoreAdresse,scoreForce,arrayOrigine,arrayMetier,jboxMetier,jboxOrigine);
 
@@ -209,6 +196,7 @@ class DialogBox extends JDialog {
 
             if (e.getSource()==okbutton){
                 Panneau pan = new Panneau();
+                MainS.arrayListNomPersonnage.add(nom.getText());
 
                 //recuperation de toute les variable dans un seul objet parce que c'est plus simple ohlo
                 info = new Collecteur(nom.getText(),(String)jboxMetier.getSelectedItem(),(String)jboxOrigine.getSelectedItem(),
@@ -262,12 +250,11 @@ class DialogBox extends JDialog {
                             + info.ptsDestin + "',0,0,'" + info.pognon + "',0,0,'" + info.courage + "','" + info.intelligence + "','" + info.charisme + "'" +
                             ",'" + info.adresse + "','" + info.force + "',8,10,'"+idPartie+"')");
 
-
                     //on ajoute l'id du personnage qu ivient d'etre créer a la liste des id
                     ResultSet resultSetid =state.executeQuery("select * from personnage_id_seq");
                     int id=0;
                     while (resultSetid.next()){
-                            id=resultSetid.getInt(1);
+                        id=resultSetid.getInt(1);
                     }
                     Panneau.listID.add(id);
 
@@ -319,7 +306,7 @@ class DialogBox extends JDialog {
         if(origine.equals("demi elfe")&&metier.equals("bourreau")){pv=30;ea=0;}
 
         //toutes les stats pour un elfe sylvain
-        if(origine.equals("elfe sylvayn")){pv=25;ea=0;}
+        if(origine.equals("elfe sylvain")){pv=25;ea=0;}
         if(origine.equals("elfe sylvain")&&metier.equals("mage")){pv=18;ea=30;}
         if(origine.equals("elfe sylvain")&&metier.equals("paladin")){pv=27;ea=10;}
         if(origine.equals("elfe sylvain")&&metier.equals("bourreau")){pv=27;ea=0;}
@@ -503,10 +490,12 @@ class DialogBox extends JDialog {
 
         //et la on remplit les combo box avec leselements possible
         for (String anArrayOrigine : arrayOrigine) {
+            //noinspection unchecked
             jboxOrigine.addItem(anArrayOrigine);
         }
 
         for (String anArrayMetier : arrayMetier) {
+            //noinspection unchecked
             jboxMetier.addItem(anArrayMetier);
         }
     }

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ class DialogBoxManuel extends JDialog {
 
     public DialogBoxManuel(JFrame parent,String title,boolean modal){
         super(parent,title,modal);
-        this.setSize(500,705);
+        this.setSize(500,770);
         this.setResizable(false);
         this.setAlwaysOnTop(true);
         this.setLocationRelativeTo(null);
@@ -21,18 +22,14 @@ class DialogBoxManuel extends JDialog {
         this.setVisible(true);
     }
 
+    @SuppressWarnings("unchecked")
     private void initComponent(){
         Dimension classicDimension = new Dimension(240,60);
         // NOM
         JPanel panNom=new JPanel();
-        panNom.setLayout(new BorderLayout());
-        panNom.setPreferredSize(classicDimension);
         nom = new JTextField();
-        panNom.setBorder(BorderFactory.createTitledBorder("nom du personnage"));
         JLabel nomLabel = new JLabel("saisir un nom");
-        nom.setHorizontalAlignment(JTextField.CENTER);
-        panNom.add(nomLabel,BorderLayout.WEST);
-        panNom.add(nom,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panNom,nomLabel,nom,"nom du Personnage");
 
         //ORIGINE
         JPanel panOrigne = new JPanel();
@@ -83,169 +80,103 @@ class DialogBoxManuel extends JDialog {
 
         //pvMax
         JPanel panpvMax = new JPanel();
-        panpvMax.setLayout(new BorderLayout());
-        panpvMax.setBorder(BorderFactory.createTitledBorder("tes Pv max"));
-        panpvMax.setPreferredSize(classicDimension);
         JLabel labelpvMax = new JLabel("pvMax :");
         JTextField pvMax = new JTextField();
-        pvMax.setHorizontalAlignment(JTextField.CENTER);
-        panpvMax.add(labelpvMax,BorderLayout.WEST);
-        panpvMax.add(pvMax,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panpvMax,labelpvMax,pvMax,"tes Pv max");
 
         //pvActuel
         JPanel panpvActuel = new JPanel();
-        panpvActuel.setLayout(new BorderLayout());
-        panpvActuel.setBorder(BorderFactory.createTitledBorder("tes Pv actuels"));
-        panpvActuel.setPreferredSize(classicDimension);
         JLabel labelpvActuel = new JLabel("pvActuel :");
         JTextField pvActuel = new JTextField();
-        pvActuel.setHorizontalAlignment(JTextField.CENTER);
-        panpvActuel.add(labelpvActuel,BorderLayout.WEST);
-        panpvActuel.add(pvActuel,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panpvActuel,labelpvActuel,pvActuel,"tes Pv Actuel(s)");
 
         //eaMax
         JPanel paneaMax = new JPanel();
-        paneaMax.setLayout(new BorderLayout());
-        paneaMax.setBorder(BorderFactory.createTitledBorder("ton Ea Max"));
-        paneaMax.setPreferredSize(classicDimension);
         JLabel labeleaMax = new JLabel("eaMax :");
         JTextField eaMax = new JTextField();
-        eaMax.setHorizontalAlignment(JTextField.CENTER);
-        paneaMax.add(labeleaMax,BorderLayout.WEST);
-        paneaMax.add(eaMax,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,paneaMax,labeleaMax,eaMax,"EA Max");
 
         //eaActuel
         JPanel paneaActuel = new JPanel();
-        paneaActuel.setLayout(new BorderLayout());
-        paneaActuel.setBorder(BorderFactory.createTitledBorder("Ea Actuels"));
-        paneaActuel.setPreferredSize(classicDimension);
         JLabel labeleaActuel = new JLabel("ton eaActuel :");
         JTextField eaActuel = new JTextField();
-        eaActuel.setHorizontalAlignment(JTextField.CENTER);
-        paneaActuel.add(labeleaActuel,BorderLayout.WEST);
-        paneaActuel.add(eaActuel,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,paneaActuel,labeleaActuel,eaActuel,"EA Actuel(s)");
         
         //COURAGE
         JPanel panCourage = new JPanel();
-        panCourage.setLayout(new BorderLayout());
-        panCourage.setBorder(BorderFactory.createTitledBorder("score de courage"));
-        panCourage.setPreferredSize(classicDimension);
         JLabel labelCourage = new JLabel("courage :");
         JTextField labelScoreCourage = new JTextField();
-        labelScoreCourage.setHorizontalAlignment(JTextField.CENTER);
-        panCourage.add(labelCourage,BorderLayout.WEST);
-        panCourage.add(labelScoreCourage,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panCourage,labelCourage,labelScoreCourage,"score de Courage");
 
         //FORCE
         JPanel panForce = new JPanel();
-        panForce.setLayout(new BorderLayout());
-        panForce.setBorder(BorderFactory.createTitledBorder("score de Force"));
-        panForce.setPreferredSize(classicDimension);
         JLabel labelForce = new JLabel("Force :");
         JTextField labelScoreForce = new JTextField();
-        labelScoreForce.setHorizontalAlignment(JTextField.CENTER);
-        panForce.add(labelForce,BorderLayout.WEST);
-        panForce.add(labelScoreForce,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panForce,labelForce,labelScoreForce,"score de Force");
 
         //INTELLIGENCE
         JPanel panIntelligence = new JPanel();
-        panIntelligence.setLayout(new BorderLayout());
-        panIntelligence.setBorder(BorderFactory.createTitledBorder("score de Intelligence"));
-        panIntelligence.setPreferredSize(classicDimension);
         JLabel labelIntelligence = new JLabel("Intelligence :");
         JTextField labelScoreIntelligence = new JTextField();
-        labelScoreIntelligence.setHorizontalAlignment(JTextField.CENTER);
-        panIntelligence.add(labelIntelligence,BorderLayout.WEST);
-        panIntelligence.add(labelScoreIntelligence,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panIntelligence,labelIntelligence,labelScoreIntelligence,"score d'Intelligence");
 
         //ADRESSE
         JPanel panAdresse = new JPanel();
-        panAdresse.setLayout(new BorderLayout());
-        panAdresse.setBorder(BorderFactory.createTitledBorder("score de Adresse"));
-        panAdresse.setPreferredSize(classicDimension);
         JLabel labelAdresse = new JLabel("Adresse :");
         JTextField labelScoreAdresse = new JTextField();
-        labelScoreAdresse.setHorizontalAlignment(JTextField.CENTER);
-        panAdresse.add(labelAdresse,BorderLayout.WEST);
-        panAdresse.add(labelScoreAdresse,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panAdresse,labelAdresse,labelScoreAdresse,"score d'Adresse");
 
         //CHARISME
         JPanel panCharisme = new JPanel();
-        panCharisme.setLayout(new BorderLayout());
-        panCharisme.setBorder(BorderFactory.createTitledBorder("score de Charisme"));
-        panCharisme.setPreferredSize(classicDimension);
         JLabel labelCharisme = new JLabel("Charisme :");
         JTextField labelScoreCharisme = new JTextField();
-        labelScoreCharisme.setHorizontalAlignment(JTextField.CENTER);
-        panCharisme.add(labelCharisme,BorderLayout.WEST);
-        panCharisme.add(labelScoreCharisme,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panCharisme,labelCharisme,labelScoreCharisme,"score de Charisme");
 
         //POGNON
         JPanel panPognon = new JPanel();
-        panPognon.setLayout(new BorderLayout());
-        panPognon.setBorder(BorderFactory.createTitledBorder("ton pognon"));
-        panPognon.setPreferredSize(classicDimension);
         JLabel labelPognon = new JLabel("ton pécule :");
         JTextField pecule = new JTextField();
-        pecule.setHorizontalAlignment(JTextField.CENTER);
-        panPognon.add(labelPognon,BorderLayout.WEST);
-        panPognon.add(pecule,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panPognon,labelPognon,pecule,"ton pognon");
 
         //POINT DE DESTIN
         JPanel panelDestin = new JPanel();
-        panelDestin.setLayout(new BorderLayout());
-        panelDestin.setPreferredSize(new Dimension(485,60));
-        panelDestin.setBorder(BorderFactory.createTitledBorder("point(s) de Destin"));
         JLabel labelDestin = new JLabel("tes points :");
         JTextField destin = new JTextField();
-        destin.setHorizontalAlignment(JTextField.CENTER);
-        panelDestin.add(labelDestin,BorderLayout.WEST);
-        panelDestin.add(destin,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(new Dimension(485,60),panelDestin,labelDestin,destin,"point(s) de Destin");
 
         //xp
         JPanel panXp = new JPanel();
-        panXp.setLayout(new BorderLayout());
-        panXp.setBorder(BorderFactory.createTitledBorder("ton experience"));
-        panXp.setPreferredSize(classicDimension);
-        JLabel labelXP = new JLabel("ton xp :");
+        JLabel labelXp = new JLabel("ton xp");
         JTextField XP = new JTextField();
-        XP.setHorizontalAlignment(JTextField.CENTER);
-        panXp.add(labelXP,BorderLayout.WEST);
-        panXp.add(XP,BorderLayout.CENTER);
-        
+        createStandarsGUIforAttribute(classicDimension,panXp,labelXp,XP,"ton experience");
+
         //lvl
         JPanel panLVL = new JPanel();
-        panLVL.setLayout(new BorderLayout());
-        panLVL.setBorder(BorderFactory.createTitledBorder("ton niveau"));
-        panLVL.setPreferredSize(classicDimension);
         JLabel labelLVl = new JLabel("ton lvl :");
         JTextField lvl = new JTextField();
-        lvl.setHorizontalAlignment(JTextField.CENTER);
-        panLVL.add(labelLVl,BorderLayout.WEST);
-        panLVL.add(lvl,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panLVL,labelLVl,lvl,"ton niveau");
 
         //attaque
         JPanel panAttaque = new JPanel();
-        panAttaque.setLayout(new BorderLayout());
-        panAttaque.setBorder(BorderFactory.createTitledBorder("ton attaque"));
-        panAttaque.setPreferredSize(classicDimension);
         JLabel labelAttaque = new JLabel("attaque :");
         JTextField att = new JTextField();
-        att.setHorizontalAlignment(JTextField.CENTER);
-        panAttaque.add(labelAttaque,BorderLayout.WEST);
-        panAttaque.add(att,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panAttaque,labelAttaque,att,"ton attaque");
 
         //parrade
         JPanel panParade = new JPanel();
-        panParade.setLayout(new BorderLayout());
-        panParade.setBorder(BorderFactory.createTitledBorder("ta parade"));
-        panParade.setPreferredSize(classicDimension);
         JLabel labelParade = new JLabel("parade :");
         JTextField parade = new JTextField();
-        parade.setHorizontalAlignment(JTextField.CENTER);
-        panParade.add(labelParade,BorderLayout.WEST);
-        panParade.add(parade,BorderLayout.CENTER);
+        createStandarsGUIforAttribute(classicDimension,panParade,labelParade,parade,"ta parade");
 
+        //partie à choisir
+        JPanel jPanelGame = new JPanel();
+        jPanelGame.setPreferredSize(new Dimension(485,60));
+        jPanelGame.setBorder(BorderFactory.createTitledBorder("choisir la partie"));
+        JComboBox<String> jComboBoxGame = new JComboBox<>();
+        JLabel jLabelGame = new JLabel("nom : ");
+        getPartieToMenu(jComboBoxGame);
+        jPanelGame.add(jLabelGame);
+        jPanelGame.add(jComboBoxGame);
 
         //BOUTON DE CONTROLE
         okbutton = new JButton("OK");
@@ -259,8 +190,8 @@ class DialogBoxManuel extends JDialog {
         content.add(paneaMax);content.add(paneaActuel);content.add(panCourage);content.add(panForce);
         content.add(panIntelligence);content.add(panAdresse);content.add(panCharisme);content.add(panPognon);
         content.add(panelDestin);content.add(panXp);content.add(panLVL);content.add(panAttaque);
-        content.add(panParade);content.add(panOrigne);content.add(panMetier);content.add(okbutton);
-        content.add(cancelButton);
+        content.add(panParade);content.add(panOrigne);content.add(panMetier);content.add(jPanelGame);
+        content.add(okbutton);content.add(cancelButton);
 
         ActionListener controlListener = e -> {
             if (e.getSource()==cancelButton){
@@ -313,15 +244,20 @@ class DialogBoxManuel extends JDialog {
                 //ON ENVOIS LES DONNÉES A LA DATA BASE
                 try {
                     Statement state = MainS.conn.createStatement();
+                    int idPartie=0;
+                    ResultSet resultSetIDGame = state.executeQuery("SELECT idpartie from partie where nom='"+jComboBoxGame.getSelectedItem()+"'");
+                    while(resultSetIDGame.next()){
+                        idPartie=resultSetIDGame.getInt("idpartie");
+                    }
 
                     //ligne qui envoit toutes les informations du personnage  à la putin de fucking base de donner
                     state.executeUpdate("INSERT INTO personnage (name, origine, metier, sexe, pvmax, pvactuel, pamax, paactuel, xp, lvl," +
                             " ptsdestin, berylium, thritil, gold, argent, cuivre, courage, intelligence, charisme, adresse, force, attaque," +
-                            " parade) values('" + info.nom + "','" + info.origine + "','" + info.metier + "','" + info.sexe + "'" +
+                            " parade,fk_partie) values('" + info.nom + "','" + info.origine + "','" + info.metier + "','" + info.sexe + "'" +
                             ",'"+info.pvMax.getText()+"','"+info.pvActuel.getText()+"','"+info.eaMax.getText()+"','"+info.eaActuel.getText()+"'" +
                             ",'"+infoBis.xp+"','"+infoBis.lvl+"','"
                             + info.ptsDestin + "',0,0,'" + info.pognon + "',0,0,'" + info.courage + "','" + info.intelligence + "','" + info.charisme + "'" +
-                            ",'" + info.adresse + "','" + info.force + "','"+infoBis.attaque+"','"+infoBis.parade+"')");
+                            ",'" + info.adresse + "','" + info.force + "','"+infoBis.attaque+"','"+infoBis.parade+"','"+idPartie+"')");
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -333,6 +269,27 @@ class DialogBoxManuel extends JDialog {
 
     }
 
+    static void getPartieToMenu(JComboBox<String> jComboBoxGame) {
+        try{
+            //ici on récupère toutes les parties dans la db
+            Statement statementGame = MainS.conn.createStatement();
+            ResultSet resultSetGame =statementGame.executeQuery("SELECT * from partie");
 
+            while (resultSetGame.next()){
+                jComboBoxGame.addItem(resultSetGame.getString("nom"));
+            }
 
+        }catch (Exception e1){
+            e1.printStackTrace();
+        }
+    }
+
+    private static void createStandarsGUIforAttribute(Dimension dimension, JPanel panel, JLabel label, JTextField textField, String border) {
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createTitledBorder(border));
+        panel.setPreferredSize(dimension);
+        textField.setHorizontalAlignment(JTextField.CENTER);
+        panel.add(label,BorderLayout.WEST);
+        panel.add(textField,BorderLayout.CENTER);
+    }
 }

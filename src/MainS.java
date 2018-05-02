@@ -12,41 +12,44 @@ class MainS {
     public static final JTabbedPane onglet = new JTabbedPane();
     public static final ArrayList<String > listOfOnglet = new ArrayList<>();
 
+    public static final ArrayList<String> arrayListNomPersonnage = new ArrayList<>();
     public static java.sql.Connection conn;
+
     public static void main(String[] args){
 
         //ActionListener qui permet la suppression du personnage ainsi que dans la database
-        ActionListener actionListenerDelette = new ActionListener() {
+        ActionListener actionListenerDelettePerso = new ActionListener() {
             String persoToSupprimer;
             @Override
             public void actionPerformed(ActionEvent e) {
                 //le try catch est la au cas ou on essaye de supprimer alors qu'il n'ya pas d'element a supprimer
                 try {
-                    //convertie l'array d'onglet en un tableau pour pouvoir le passer en paramètre de la fonction
-                    //cela permet de crée l'optionPane avec en parametre le tableau d'onglet
-                    String[] tabOnglet = new String[listOfOnglet.size()];
-                    tabOnglet = listOfOnglet.toArray(tabOnglet);
+                    // on récupère tous les nom de personnages dans la database
+                    arrayListNomPersonnage.clear();
+                    fillArrayWithAllPersoName();
+
+                    // on doit convertir l'array en tableau pour le passer en parametre du JoptionPan
+                    String[] tabNomPerso = new String[arrayListNomPersonnage.size()];
+                    for (int i = 0; i < arrayListNomPersonnage.size(); i++) {
+                        tabNomPerso[i]=arrayListNomPersonnage.get(i);
+                    }
 
                     //les parametres de la methode sont le message dans la box, le titre puis la tableau a passer en paramètre puis l'indice selesctionner par defaut
                     persoToSupprimer = (String) JOptionPane.showInputDialog(null,
-                            "choisir l'onglet à supprimer",
+                            "Quel personnage voulais vous supprimez ?",
                             "JDR manager",
                             JOptionPane.QUESTION_MESSAGE,
                             null,
-                            tabOnglet,
-                            tabOnglet[0]);
+                            tabNomPerso,
+                            tabNomPerso[0]);
 
                     //ici on supprime le personnage de la base de donnée
-                    try {
-                        conn.createStatement().executeUpdate("delete from personnage where name='"+persoToSupprimer+"'");
-                    }
-                    catch (Exception e1){
-                        e1.printStackTrace();
-                    }
+                    try { conn.createStatement().executeUpdate("delete from personnage where name='"+persoToSupprimer+"'"); }
+                    catch (Exception e1){ e1.printStackTrace();}
 
                     //ici on supprime le personnage de l'interface
-                    for (int i = 0; i < tabOnglet.length; i++) {
-                        if (tabOnglet[i].equals(persoToSupprimer)){
+                    for (int i = 0; i < onglet.getTabCount(); i++) {
+                        if (listOfOnglet.get(i).equals(persoToSupprimer)){
                             onglet.remove(i);
                             listOfOnglet.remove(i);
                             break;
@@ -57,26 +60,190 @@ class MainS {
                             "JDR manager", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        };
 
+        ActionListener actionListenerSupprimerPartie = new ActionListener() {
+            String partieToDelette;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //on récupère la liste des personnages
+                ArrayList<String> arrayListNamePartie = new ArrayList<>();
+                try {
+                    ResultSet resultSetNomPartie = conn.createStatement().executeQuery("select nom from partie");
+                    while (resultSetNomPartie.next()){
+                        arrayListNamePartie.add(resultSetNomPartie.getString("nom"));
+                    }
+
+                }catch (Exception e1){e1.printStackTrace();}
+
+                //on convertis la liste des perso en un tableau
+                String[] tabNomPerso = new String[arrayListNamePartie.size()];
+                for (int i = 0; i < arrayListNamePartie.size(); i++) {
+                    tabNomPerso[i]=arrayListNamePartie.get(i);
+                }
+
+                try {
+                    partieToDelette=(String) JOptionPane.showInputDialog(null,"qu'elle partie desirez vous supprimer ?",
+                            "JDR manager", JOptionPane.QUESTION_MESSAGE,null,tabNomPerso,tabNomPerso[0]);
+
+                }catch (Exception e1){
+                    JOptionPane.showMessageDialog(null,"Il n'y a pas de partie à supprimer");
+                }
+
+                ArrayList<Integer> arrayListDesFKpartieDesPerso = new ArrayList<>();
+                selectAllForeignKeyOfPersoFromOnglet(arrayListDesFKpartieDesPerso);
+
+                int idPartie=0;
+                try {
+                    ResultSet resultSetID = conn.createStatement().executeQuery("select idpartie from partie where nom='"+partieToDelette+"'");
+                    while (resultSetID.next()){
+                        idPartie=resultSetID.getInt("idpartie");
+                    }
+                } catch (SQLException e1) { e1.printStackTrace(); }
+
+                for (int i = 0; i < listOfOnglet.size(); i++) {
+                    for (Integer anArrayListDesFKpartieDesPerso : arrayListDesFKpartieDesPerso) {
+                        if (anArrayListDesFKpartieDesPerso == idPartie) {
+
+                            listOfOnglet.remove(i);
+                            onglet.remove(i);
+                        }
+                    }
+                }
+
+                // puis on supprime la partie dont le nom à étais selectionner
+                try {
+                    conn.createStatement().executeUpdate("delete from partie where nom='"+partieToDelette+"'");
+                }catch (Exception e1){e1.printStackTrace();}
+
+            }
         };
 
         //ActionListener qui import tous les personnage
+        ActionListener actionListenerImportPerso = new ActionListener() {
+            String persoToImport;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    arrayListNomPersonnage.clear();
+                    fillArrayWithAllPersoName();
 
-        ActionListener actionListenerImportAllPerso = e -> {
-            try {
-                String sqlString = "select * from personnage";
-                importPerso(sqlString);
+                    String[] tabNomPerso = new String[arrayListNomPersonnage.size()];
+                    for (int i = 0; i < arrayListNomPersonnage.size(); i++) {
+                        tabNomPerso[i]=arrayListNomPersonnage.get(i);
+                    }
 
-            }catch (Exception e1){
-                e1.printStackTrace();
+                    persoToImport = (String) JOptionPane.showInputDialog(null,
+                            "Qui voulais vous afficher à l'ecrand ?",
+                            "JDR manager",
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            tabNomPerso,
+                            tabNomPerso[0]);
+
+                    //ici on vérifie d'abord si le personnage n'est pas déjà afficher à l'écrand avant d'importerl le perso
+                    Boolean ispresent=false;
+
+                    for (String aListOfOnglet : listOfOnglet) {
+                        if (aListOfOnglet.equals(persoToImport)) {
+                            ispresent = true;
+                            JOptionPane.showMessageDialog(null, "Ce perso est déjà afficher à l'écrand", "JDR manager", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+
+                    if(!ispresent){
+                        importPerso("select * from personnage where name='"+persoToImport+"'");
+                    }
+
+                }catch (IndexOutOfBoundsException e1){
+                    JOptionPane.showMessageDialog(null, "tu peux pas importer si ya personne à importer boufon",
+                            "JDR manager", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        };
+
+        //ActionListener qui permet l'import de tous les peronnages d'une partie
+        ActionListener actionListenerImportPartie = new ActionListener() {
+            String partieToImport;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //on recupère tous les nom de partie puis on convertie la liste en un tableau
+                ArrayList<String> arrayListNamePartie = new ArrayList<>();
+                try {
+                    ResultSet resultSetNom =conn.createStatement().executeQuery("select nom from partie ");
+                    while (resultSetNom.next()){
+                        arrayListNamePartie.add(resultSetNom.getString("nom"));
+                    }
+                } catch (SQLException e1) { e1.printStackTrace();}
+
+                String[] tabNomPartie = new String[arrayListNamePartie.size()];
+                for (int i = 0; i < arrayListNamePartie.size(); i++) {
+                    tabNomPartie[i]=arrayListNamePartie.get(i);
+                }
+
+               try {
+                   //le JoptionPan qui permet le dialogue et de choisir qu'elle partie on veut importer
+                   partieToImport = (String) JOptionPane.showInputDialog(null,
+                           "Qu'elle partie voulais vous importer ?",
+                           "JDR manager",
+                           JOptionPane.QUESTION_MESSAGE,
+                           null,
+                           tabNomPartie,
+                           tabNomPartie[0]);
+
+               }catch (Exception e1){
+                    JOptionPane.showMessageDialog(null,"Il n'y à pas de partie à importer");
+               }
+
+                //ici on récupère l'id de la partie à partir de la selection faite par l'utiliteur
+                int idPartie=0;
+                try {
+                    ResultSet resultSetID = conn.createStatement().executeQuery("select idpartie from partie where nom='"+partieToImport+"'");
+                    while (resultSetID.next()){
+                        idPartie=resultSetID.getInt("idpartie");
+                        break;
+                    }
+                } catch (SQLException e1) { e1.printStackTrace(); }
+
+                //avec ces deux blocs on recupère toutes les foreign key différente de joueur et on les met dans un liste
+                //puis on supprime de l'onglet tous les perso qui ont la même foreign key que la partie que l'on veut ajouter
+                //pour éviter les doublons lors de l'import
+                ArrayList<Integer> arrayListDesFKpartieDesPerso = new ArrayList<>();
+                selectAllForeignKeyOfPersoFromOnglet(arrayListDesFKpartieDesPerso);
+
+                for (int i = 0; i < listOfOnglet.size(); i++) {
+                    for (Integer anArrayListDesFKpartieDesPerso : arrayListDesFKpartieDesPerso) {
+                        if (anArrayListDesFKpartieDesPerso == idPartie) {
+                            saveIntoDb();
+                            listOfOnglet.remove(i);
+                            onglet.remove(i);
+                        }
+                    }
+                }
+                //puis une fois le champs vider des elements déjà existant on réimporte tout
+                importPerso("select * from personnage where fk_partie='"+idPartie+"'");
             }
         };
 
         //action listener qui va vider l'écrand
-        ActionListener actionListenerClear = e -> {
+        ActionListener actionListenerClearAll = e -> {
             saveIntoDb();
             onglet.removeAll();
-            listOfOnglet.removeAll(listOfOnglet);
+            listOfOnglet.clear();
+        };
+
+        ActionListener actionListenerClearActivateOnglet = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveIntoDb();
+                onglet.remove(onglet.getSelectedComponent());
+
+                if(onglet.getSelectedIndex()<0){
+                    listOfOnglet.remove(0);
+                }else{ listOfOnglet.remove(onglet.getSelectedIndex()); }
+
+            }
         };
 
         //ligne de code qui permet la connexion a la database
@@ -118,7 +285,7 @@ class MainS {
         panMenuBouton.add(panMenu,BorderLayout.NORTH);
         panMenuBouton.add(panBouton,BorderLayout.SOUTH);
 
-    //--------------------------------------------------------------------------------//
+        //--------------------------------------------------------------------------------//
         //PARTIE DU MENU
 
         //setup de la barre de menu
@@ -128,107 +295,71 @@ class MainS {
         JMenu jMenuCreation = new JMenu("création");
         JMenuItem jMenuItemAuto = new JMenuItem("aléatoire");
         JMenuItem jMenuItemManuel = new JMenuItem("manuel");
-        JMenuItem jMenuItemSupprimer = new JMenuItem("supprimer");
-        JMenuItem jMenuItemImport = new JMenuItem("import");
+
+        JMenuItem jMenuSupprimerPerso = new JMenuItem("supprimer perso");
+        JMenuItem jMenuImportPerso = new JMenuItem("import perso");
 
         //organisation du menu de personnage
         jMenuCreation.add(jMenuItemAuto);
         jMenuCreation.add(jMenuItemManuel);
         jMenuPersonnage.add(jMenuCreation);
-        jMenuPersonnage.add(jMenuItemImport);
-        jMenuPersonnage.add(jMenuItemSupprimer);
+        jMenuPersonnage.add(jMenuImportPerso);
+        jMenuPersonnage.add(jMenuSupprimerPerso);
 
         //menu outil
         JMenu jMenuOutil = new JMenu("outils");
         JMenuItem jMenuItemSauvegarde = new JMenuItem("sauvegarde");
-        JMenuItem jMenuItemClear = new JMenuItem("clear");
-
+        JMenuItem jMenuItemClearAll = new JMenuItem("clear tous les onglets");
+        JMenuItem jMenuItemClearActivate = new JMenuItem("clear onglet actif");
         //organisation du menu outil
         jMenuOutil.add(jMenuItemSauvegarde);
-        jMenuOutil.add(jMenuItemClear);
+        jMenuOutil.add(jMenuItemClearActivate);
+        jMenuOutil.add(jMenuItemClearAll);
 
         //menu partie
         JMenu jMenuPartie = new JMenu("partie");
         JMenuItem jMenuItemCreateGame = new JMenuItem("nouvelle partie");
-        JMenuItem jMenuItemDelette = new JMenuItem("supprimer partie");
-        JMenu jMenuItemImportPartie = new JMenu("import partie");
-
-        //on ajoute toutes les parties enregistrer sur la database a une liste qu'on pourra manipuler par la suite
-        ArrayList<JMenuItem> arrayListImportPartie = new ArrayList<>();
-        ArrayList<String> arrayListNamePartie = new ArrayList<>();
-        try{
-            ResultSet resultSetPartie = conn.createStatement().executeQuery("SELECT nom from partie");
-            while (resultSetPartie.next()){
-                arrayListImportPartie.add(new JMenuItem(resultSetPartie.getString("nom")));
-                arrayListNamePartie.add(resultSetPartie.getString("nom"));
-            }
-        }catch (Exception e1){e1.printStackTrace();}
-
-        //on ajoute à cet endroit les differentes partie a l'affichage du menu
-        for (int i = 0; i < arrayListImportPartie.size(); i++) {
-            jMenuItemImportPartie.add(arrayListImportPartie.get(i));
-
-            int finalI = i;
-            arrayListImportPartie.get(i).addActionListener(e -> {
-                //avec ce bloc d'instruction on récupère l'id de la partie selectionner
-                int id=0;
-                try {
-                    ResultSet resultSetIdParte = conn.createStatement().executeQuery("SELECT idpartie from partie where nom='"+arrayListNamePartie.get(finalI)+"'");
-                    while (resultSetIdParte.next()){
-                        id=resultSetIdParte.getInt("idpartie");
-                    }
-                    //et la on récupère toutes les données de  personnage de la database qui sont membre de la partie
-                    importPerso("select * from personnage where fk_partie='"+id+"'");
-
-                }catch (Exception e1){e1.printStackTrace();}
-            });
-        }
+        JMenuItem jMenuItemImportGame = new JMenuItem("import partie");
+        JMenuItem jMenuItemDeletteGame = new JMenuItem("supprimer partie");
 
         //organisation menu partie
         jMenuPartie.add(jMenuItemCreateGame);
-        jMenuPartie.add(jMenuItemDelette);
-        jMenuPartie.add(jMenuItemImportPartie);
+        jMenuPartie.add(jMenuItemImportGame);
+        jMenuPartie.add(jMenuItemDeletteGame);
 
         //on ajoute tous les gros composant à la barre principal
         jMenuBar.add(jMenuPersonnage);
-        jMenuBar.add(jMenuOutil);
         jMenuBar.add(jMenuPartie);
+        jMenuBar.add(jMenuOutil);
 
         //on attribue a tous les menuitem leurs action respective
         jMenuItemAuto.addActionListener(e ->new DialogBox(null,"création Personnage",true) );
         jMenuItemManuel.addActionListener(e -> new DialogBoxManuel(null,"création personnage manuel",true));
         jMenuItemSauvegarde.addActionListener(e -> saveIntoDb());
-        jMenuItemSupprimer.addActionListener(actionListenerDelette);
-        jMenuItemClear.addActionListener(actionListenerClear);
+        jMenuSupprimerPerso.addActionListener(actionListenerDelettePerso);
+        jMenuImportPerso.addActionListener(actionListenerImportPerso);
+        jMenuItemClearAll.addActionListener(actionListenerClearAll);
+        jMenuItemClearActivate.addActionListener(actionListenerClearActivateOnglet);
         jMenuItemCreateGame.addActionListener(e -> createGame(frame));
+        jMenuItemImportGame.addActionListener(actionListenerImportPartie);
+        jMenuItemDeletteGame.addActionListener(actionListenerSupprimerPartie);
 
         //ici on attribue les raccourcis clavier aux différentes options
         jMenuItemAuto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,KeyEvent.CTRL_DOWN_MASK));
         jMenuItemManuel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,KeyEvent.CTRL_DOWN_MASK));
-        jMenuItemImport.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,KeyEvent.CTRL_DOWN_MASK));
-        jMenuItemClear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,KeyEvent.CTRL_DOWN_MASK));
-        jMenuItemSupprimer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,KeyEvent.CTRL_DOWN_MASK));
+        jMenuImportPerso.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,KeyEvent.CTRL_DOWN_MASK));
+        jMenuItemClearActivate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,KeyEvent.CTRL_DOWN_MASK));
+        jMenuItemClearAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,KeyEvent.CTRL_DOWN_MASK+KeyEvent.SHIFT_DOWN_MASK));
+        jMenuSupprimerPerso.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,KeyEvent.CTRL_DOWN_MASK));
         jMenuItemSauvegarde.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,KeyEvent.CTRL_DOWN_MASK));
         jMenuItemCreateGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,KeyEvent.CTRL_DOWN_MASK));
-
+        jMenuItemImportGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,KeyEvent.CTRL_DOWN_MASK+KeyEvent.SHIFT_DOWN_MASK));
+        jMenuItemDeletteGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,KeyEvent.ALT_DOWN_MASK+KeyEvent.SHIFT_DOWN_MASK));
         //on ajoute la barre de menu au panel
+        panMenu.setLayout(new FlowLayout(FlowLayout.LEFT));
         panMenu.add(jMenuBar);
 
-    //------------------------------------------------------------------------------------//
-
-        //ajout des boutons de fonctionnalité
-        JButton butAddPLayer= new JButton("ajout perso aléatoire");
-        JButton butDelette = new JButton("Delette Player");
-        JButton butAddPLayerManuel = new JButton("ajout perso manuel ");
-        JButton butImportFromDb = new JButton("import");
-        JButton butSave = new JButton("sauvegarder");
-
-        //on ajoute au panel des boutons les boutons
-        panBouton.add(butAddPLayer);
-        panBouton.add(butAddPLayerManuel);
-        panBouton.add(butDelette);
-        panBouton.add(butSave);
-        panBouton.add(butImportFromDb);
+        //------------------------------------------------------------------------------------//
 
         //action listener des boutons d'ajout auto/manuel et de suppression
         //ICI LE FONCTION DE SAUVEGARDE DE L'ETAT DES PERSONNAGES VERS LA DATABASE
@@ -272,13 +403,6 @@ class MainS {
             }
         };
 
-        //ajout du listener sur les boutons
-        butAddPLayer.addActionListener(e -> new DialogBox(null,"création Personnage",true));
-        butDelette.addActionListener(actionListenerDelette);
-        butAddPLayerManuel.addActionListener(e -> new DialogBoxManuel(null,"création personnage manuel",true));
-         butImportFromDb.addActionListener(actionListenerImportAllPerso);
-        butSave.addActionListener(actSave);
-
         //ajout du listener qui permer la sauvegarde à la fenêtre principale
         frame.addWindowListener(windowListener);
 
@@ -286,6 +410,29 @@ class MainS {
         frame.getContentPane().add(onglet);
         frame.setVisible(true);
 
+    }
+
+    private static void selectAllForeignKeyOfPersoFromOnglet(ArrayList<Integer> arrayListDesFKpartieDesPerso) {
+        for (String aListOfOnglet : listOfOnglet) {
+            try {
+                ResultSet resultSetFkPartieChezPerso = conn.createStatement().executeQuery("select fk_partie from personnage where name='" + aListOfOnglet + "'");
+                while (resultSetFkPartieChezPerso.next()) {
+                    arrayListDesFKpartieDesPerso.add(resultSetFkPartieChezPerso.getInt("fk_partie"));
+                    break;
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    private static void fillArrayWithAllPersoName() {
+        try {
+            ResultSet resultSetNomPersonnage = conn.createStatement().executeQuery("select name from personnage");
+            while (resultSetNomPersonnage.next()){
+                arrayListNomPersonnage.add(resultSetNomPersonnage.getString("name"));
+            }
+        }catch (Exception e1){e1.printStackTrace();}
     }
 
     private static void saveIntoDb() {
@@ -332,11 +479,13 @@ class MainS {
     }
 
     private static void createGame(Frame _frame){
+        //on ajoute la partie à la database
         try {
             String name = JOptionPane.showInputDialog(_frame,"nom de la partie :");
             if(name!=null) {
                 conn.createStatement().executeUpdate("INSERT into partie (nom) values ('" + name + "')");
             }
+
         }catch (Exception e1){
             e1.printStackTrace();
         }
@@ -402,6 +551,8 @@ class MainS {
                 panneau.tabTxtCaracMod[4].setText(resultSetPerso.getString("forcemod"));
                 panneau.tabTxtCaracMod[8].setText(resultSetPerso.getString("attaquemod"));
                 panneau.tabTxtCaracMod[9].setText(resultSetPerso.getString("parademod"));
+
+
 
                 //ici on essaye de remplir le champs de magie phy des lors qu'il ya une valeur d'adresse et d'intelligence modifier
                 if(!resultSetPerso.getString("adressemod").equals("")&&!resultSetPerso.getString("intelligencemod").equals("")){

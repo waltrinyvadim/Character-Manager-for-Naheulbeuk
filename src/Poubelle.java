@@ -2,6 +2,111 @@
 
 
 
+/* //ici on remplit la liste des personnages via les données enregistrer sur la bdd
+        try {
+            ResultSet resultSetNomPersonnage = conn.createStatement().executeQuery("select name from personnage");
+            while (resultSetNomPersonnage.next()){
+                arrayListNomPersonnage.add(resultSetNomPersonnage.getString("name"));
+            }
+        }catch (Exception e1){e1.printStackTrace();}
+
+        //on remplit les menu supprimer et import de personnage avec les personnages qui sont de la liste
+        for (int i = 0; i < arrayListNomPersonnage.size(); i++) {
+            jMenuImportPerso.add(new JMenuItem(arrayListNomPersonnage.get(i)));
+            jMenuSupprimerPerso.add(new JMenuItem(arrayListNomPersonnage.get(i)));
+
+            //avec ce block de code on récupère l'id du personnage que l'on souhaite importer
+            int finalI = i;
+            int id=0;
+            try {
+                ResultSet resultSet = conn.createStatement().executeQuery("select id from personnage where name='"+arrayListNomPersonnage.get(finalI)+"'");
+                while (resultSet.next()){
+                   id=resultSet.getInt("id");
+                }
+            } catch (Exception e) { e.printStackTrace(); }
+
+            int finalId = id;
+            jMenuImportPerso.getItem(i).addActionListener(e -> {
+               //importPerso("select * from personnage where id='"+ finalId +"'");
+
+            });
+        }
+        //on ajoute toutes les parties enregistrer sur la database a une liste qu'on pourra manipuler par la suite
+        ArrayList<JMenuItem> arrayListImportPartie = new ArrayList<>();
+        ArrayList<JMenuItem> arrayListDelettePartie = new ArrayList<>();
+        ArrayList<String> arrayListNamePartie = new ArrayList<>();
+
+        //on récupère toutes les parties enregistrer dans la base de donnée pour les mettres dans différentes liste
+        try{
+            ResultSet resultSetPartie = conn.createStatement().executeQuery("SELECT nom from partie");
+            while (resultSetPartie.next()){
+                arrayListImportPartie.add(new JMenuItem(resultSetPartie.getString("nom")));
+                arrayListDelettePartie.add(new JMenuItem(resultSetPartie.getString("nom")));
+                arrayListNamePartie.add(resultSetPartie.getString("nom"));
+            }
+        }catch (Exception e1){e1.printStackTrace();}
+
+        //on ajoute à cet endroit les differentes partie a l'affichage du menu d'import
+        for (int i = 0; i < arrayListImportPartie.size(); i++) {
+            jMenuImportPersoPartie.add(arrayListImportPartie.get(i));
+
+            int finalI = i;
+            //on ajoute le même listenner à chaque element du menu
+            arrayListImportPartie.get(i).addActionListener(e -> {
+                //avec ce bloc d'instruction on récupère l'id de la partie selectionner
+                int id=0;
+                try {
+                    ResultSet resultSetIdPartie = conn.createStatement().executeQuery("SELECT idpartie from partie where nom='"+arrayListNamePartie.get(finalI)+"'");
+                    while (resultSetIdPartie.next()){
+                        id=resultSetIdPartie.getInt("idpartie");
+                    }
+                    //et la on récupère toutes les données de  personnage de la database qui sont membre de la partie
+                    importPerso("select * from personnage where fk_partie='"+id+"'");
+
+                }catch (Exception e1){e1.printStackTrace();}
+            });
+        }
+
+        //PORTION DE CODE QUI GÈRE LA SUPPRESSION ET  l'update des menu lors de la suppression d'un element
+        //on ajoute ici les parties à supprimer dans l'onglet supprimer du menu partie
+        for (int i = 0; i < arrayListImportPartie.size(); i++) {
+            jMenuDelettePartie.add(arrayListDelettePartie.get(i));
+
+            int finalI1 = i;
+            //on rajoute le même listener à chaque element du menu
+            arrayListDelettePartie.get(i).addActionListener(e -> {
+                    int id=0;
+                    try {
+                        ResultSet resultSetIdPartie = conn.createStatement().executeQuery("SELECT idpartie from partie where nom='"+arrayListNamePartie.get(finalI1)+"'");
+                        while(resultSetIdPartie.next()){
+                            id=resultSetIdPartie.getInt("idpartie");
+                        }
+                        //ici on supprime l'element de la liste des menu import et supprimer
+                        //d'abord on clear les menu
+                        jMenuImportPersoPartie.removeAll();
+                        jMenuDelettePartie.removeAll();
+
+                        //puis on retire la partie à supprimer des liste
+                        arrayListDelettePartie.remove(finalI1);
+                        arrayListImportPartie.remove(finalI1);
+                        arrayListNamePartie.remove(finalI1);
+
+                        //ensuite on re remplis les menus avec les différentes listes
+                        for (int j = 0; j < arrayListDelettePartie.size(); j++) {
+                            jMenuImportPersoPartie.add(arrayListImportPartie.get(j));
+                            jMenuDelettePartie.add(arrayListDelettePartie.get(j));
+                        }
+                        //et pour finir on supprimela partie de la database
+                        conn.createStatement().executeUpdate("delete from partie where idpartie='"+id+"'");
+                    }catch (Exception e1){e1.printStackTrace();}
+                });
+        }*/
+
+
+
+
+
+
 /* //requette pour la sauvegarde des pv et des pa
                     PreparedStatement preparedStatementPvEa = conn.prepareStatement("update personnage set pvmax=?,pvactuel=?,pamax=?,paactuel=? where name='"+listOfOnglet.get(i)+"'");
                     preparedStatementPvEa.setString(1,Panneau.listPanel.get(i).tabTxtStatPvEa[0].getText());

@@ -50,8 +50,8 @@
     </role>
     <schema id="10" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2018-04-04.14:29:19.285</IntrospectionTimestamp>
-      <IntrospectionStateNumber>4840</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-04-05.13:37:40.088</IntrospectionTimestamp>
+      <IntrospectionStateNumber>5919</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -124,11 +124,11 @@
     </table>
     <table id="24" parent="10" name="partie">
       <ObjectId>16689</ObjectId>
-      <StateNumber>4839</StateNumber>
+      <StateNumber>5919</StateNumber>
     </table>
     <table id="25" parent="10" name="personnage">
       <ObjectId>16468</ObjectId>
-      <StateNumber>4839</StateNumber>
+      <StateNumber>5919</StateNumber>
     </table>
     <column id="26" parent="21" name="fk_perrso">
       <Position>1</Position>
@@ -572,13 +572,14 @@
       <Primary>1</Primary>
     </key>
     <foreign-key id="91" parent="25" name="fk_partie">
-      <ObjectId>16709</ObjectId>
+      <ObjectId>16715</ObjectId>
       <ColNames>fk_partie</ColNames>
       <RefTableId>16689</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>partie</RefTableName>
       <RefKeyName>partie_pkey</RefKeyName>
       <RefColNames>idpartie</RefColNames>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
   </database-model>
 </dataSource>

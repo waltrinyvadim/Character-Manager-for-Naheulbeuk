@@ -293,8 +293,6 @@ class Panneau extends JPanel {
         panButtonAddRemoveRow2.add(butAddRow2);
         panButtonAddRemoveRow2.add(butRemoveRow2);
 
-
-
         butAddRow2.addActionListener(e -> {
             DialogAddArme dialogArme = new DialogAddArme(null,"ajout d'arme",true);
         });
@@ -331,12 +329,8 @@ class Panneau extends JPanel {
         panButtonAddRemoveRow.add(butRemoveRow);
         panArmure.add(panButtonAddRemoveRow,BorderLayout.SOUTH);
 
-        //permet d'acceder au donnée du tableau
-        //DefaultTableModel tableModel = (DefaultTableModel) jtabArmure.getModel();
-
         butAddRow.addActionListener(e -> {
             DialogAddArmure dialogAddArmure = new DialogAddArmure(null,"ajout armure",true);
-
         });
 
         butRemoveRow.addActionListener(e -> tableModelArmure.removeRow(jtabArmure.getSelectedRow()));
