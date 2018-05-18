@@ -11,10 +11,12 @@ class Panneau extends JPanel {
     final DefaultTableModel tableModelArmure;
     final DefaultTableModel defaultTableModelArme;
     final DefaultTableModel tablemodelBarda;
+    final DefaultTableModel defaultTableModelCompetence;
 
     public static final ArrayList<DefaultTableModel > listofModelArme = new ArrayList<>();
     public static final ArrayList<DefaultTableModel > listofModelArmure = new ArrayList<>();
     public static final ArrayList<DefaultTableModel > listofModelBarda = new ArrayList<>();
+    public static final ArrayList<DefaultTableModel> listOfModelCompence = new ArrayList<>();
 
     public static final ArrayList<Integer> listID = new ArrayList<>();
 
@@ -64,10 +66,6 @@ class Panneau extends JPanel {
         JLabel  labCourageMod = new JLabel(),labIntelligenceMod = new JLabel(),labCharismeMod = new JLabel(),labAdresseMod = new JLabel(),labForceMod = new JLabel(),
                 labMagiePhyMod = new JLabel(),labMagiePsyMod = new JLabel(),labResMagieMod = new JLabel(),labAttMod = new JLabel(),labParMod = new JLabel();
 
-        JTextField txtCourageMod = new JTextField(),txtIntelligenceMod = new JTextField(),txtCharismeMod = new JTextField(),txtAdresseMod = new JTextField(),
-                txtForceMod = new JTextField(),txtMagiePhyMod = new JTextField(),txtMagiePsyMod = new JTextField(),txtResMagieMod = new JTextField(),
-                txtAttMod = new JTextField(),txtParMod = new JTextField();
-
         JPanel panPv = new JPanel();JPanel panEa = new JPanel();
         JLabel labMaxPv=new JLabel();JLabel labMaxEa=new JLabel();JLabel labActuelPv=new JLabel();JLabel labActuelEa=new JLabel();
 
@@ -84,8 +82,8 @@ class Panneau extends JPanel {
 
         Font font = new Font("Arial",Font.PLAIN,18);
         Dimension dimensionPrincipal = new Dimension(195,45);
-        Dimension dimensionPanelSecondaire = new Dimension(250,200);
-        Dimension dimensionCaracPrincipal1 = new Dimension(600,280);
+        Dimension dimensionPanelSecondaire = new Dimension(259,200);
+        Dimension dimensionCaracPrincipal1 = new Dimension(460,280);
 
         panPognon = new JPanel();
         panDescription=new JPanel(); panLvlDestinXp = new JPanel();
@@ -259,6 +257,27 @@ class Panneau extends JPanel {
             panCaracPrincipal.add(tabPanelCarac[i-5]);
         }
 
+
+        //---------------------------------------------------------------------------------------//
+
+        JPanel panelCompetence = new JPanel();
+        panelCompetence.setBorder(BorderFactory.createTitledBorder("Compétence"));
+        panelCompetence.setLayout(new BorderLayout());
+        panelCompetence.setPreferredSize(dimensionCaracPrincipal1);
+
+
+        String[] nomCollumCompetence = {"nom"};
+        Object[][] dataCompetence ={};
+
+        defaultTableModelCompetence = new DefaultTableModel(dataCompetence,nomCollumCompetence);
+        JTable jTabbedPaneCompetence = new JTable(defaultTableModelCompetence);
+
+        JButton jButtonDescriptionCompetence = new JButton("Description de la compétence®");
+
+        panelCompetence.add(new JScrollPane(jTabbedPaneCompetence),BorderLayout.CENTER);
+        panelCompetence.add(jButtonDescriptionCompetence,BorderLayout.SOUTH);
+
+
         //---------------------------------------------------------------------------------//
         /////------------------------------------------------------------------------------//
         //          GESTION DE LA PARTIE BASSE DE LA FEUILLE DE PERSO
@@ -288,8 +307,8 @@ class Panneau extends JPanel {
 
         JPanel panButtonAddRemoveRow2 = new JPanel();
         panButtonAddRemoveRow2.setLayout(new GridLayout(1,2));
-        JButton butAddRow2 = new JButton("add row");
-        JButton butRemoveRow2 = new JButton("remove row");
+        JButton butAddRow2 = new JButton("ajout arme");
+        JButton butRemoveRow2 = new JButton("supprimer arme");
         panButtonAddRemoveRow2.add(butAddRow2);
         panButtonAddRemoveRow2.add(butRemoveRow2);
 
@@ -323,8 +342,8 @@ class Panneau extends JPanel {
         panArmure.add(new JScrollPane(jtabArmure),BorderLayout.CENTER);
         JPanel panButtonAddRemoveRow = new JPanel();
         panButtonAddRemoveRow.setLayout(new GridLayout(1,2));
-        JButton butAddRow = new JButton("add row");
-        JButton butRemoveRow = new JButton("remove row");
+        JButton butAddRow = new JButton("ajout armure");
+        JButton butRemoveRow = new JButton("supprimer armure");
         panButtonAddRemoveRow.add(butAddRow);
         panButtonAddRemoveRow.add(butRemoveRow);
         panArmure.add(panButtonAddRemoveRow,BorderLayout.SOUTH);
@@ -351,8 +370,8 @@ class Panneau extends JPanel {
 
         JPanel panButtonAddRemoveRow0 = new JPanel();
         panButtonAddRemoveRow0.setLayout(new GridLayout(1,2));
-        JButton butAddRow0 = new JButton("add row");
-        JButton butRemoveRow0 = new JButton("remove row");
+        JButton butAddRow0 = new JButton("ajout babiole");
+        JButton butRemoveRow0 = new JButton("supprimer babiole");
         panButtonAddRemoveRow0.add(butAddRow0);
         panButtonAddRemoveRow0.add(butRemoveRow0);
 
@@ -381,6 +400,7 @@ class Panneau extends JPanel {
         this.add(panPognon);
         this.add(panCaracPrincipal);
         this.add(panCaracSecondaire);
+        this.add(panelCompetence);
         this.add(panArme);
         this.add(panArmure);
         this.add(panFoureTout);

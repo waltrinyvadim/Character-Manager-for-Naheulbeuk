@@ -520,4 +520,8 @@ class DialogBox extends JDialog {
 
     }
 
+    private void setCompetenceBase(String _origine, String _metier){
+
+    }
+
 }

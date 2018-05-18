@@ -1,6 +1,49 @@
 //public class Poubelle {
 
 
+//pour la lecture et l'enregistrement dans la bdd des compétences
+/*BufferedReader reader;
+        try {
+            ArrayList<String> arrayListNomDescription = new ArrayList<>();
+
+            reader = new BufferedReader(new FileReader(
+                    "/Users/vad/IdeaProjects/jdr_naheulbeuk/src/competence.txt"));
+            String line = reader.readLine();
+
+            while (line !=null){
+                StringTokenizer st = new StringTokenizer(line, "|");
+                while (st.hasMoreTokens()) {
+                    arrayListNomDescription.add(st.nextToken());
+                }
+                line = reader.readLine();
+            }
+            try {
+                for (int i = 0; i <arrayListNomDescription.size() ; i=i+2) {
+                    conn.createStatement().executeUpdate("insert into competence (nom, description) values ('"+arrayListNomDescription.get(i)+"','"+arrayListNomDescription.get(i+1)+"')");
+                }
+            }catch (Exception e1){e1.printStackTrace();}
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+
+
+
+
+// avec cette boucle on parcours la liste des lettres pour ensuite remplir des jtexfield avec toutes les compétences
+//on obtiens avec ca un affichage claire et classé par ordre alphabétique
+        /*for (int i = 0; i < arrayListLettre.size(); i++) {
+            JTextArea textArea = new JTextArea();
+            textArea.append("                         "+arrayListLettre.get(i)+"\n*--------------------------*");
+            for (String nomCompetence : arrayListCompetence) {
+                if(nomCompetence.substring(0,1).equals(arrayListLettre.get(i))){
+                    textArea.append("\n"+nomCompetence);
+                    panelListe.add(textArea);
+                }
+            }
+        }*/
+
 
 /* //ici on remplit la liste des personnages via les données enregistrer sur la bdd
         try {

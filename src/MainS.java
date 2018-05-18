@@ -142,7 +142,7 @@ class MainS {
                             tabNomPerso[0]);
 
                     //ici on vérifie d'abord si le personnage n'est pas déjà afficher à l'écrand avant d'importerl le perso
-                    Boolean ispresent=false;
+                    boolean ispresent=false;
 
                     for (String aListOfOnglet : listOfOnglet) {
                         if (aListOfOnglet.equals(persoToImport)) {
@@ -233,17 +233,14 @@ class MainS {
             listOfOnglet.clear();
         };
 
-        ActionListener actionListenerClearActivateOnglet = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveIntoDb();
-                onglet.remove(onglet.getSelectedComponent());
+        ActionListener actionListenerClearActivateOnglet = e -> {
+            saveIntoDb();
+            onglet.remove(onglet.getSelectedComponent());
 
-                if(onglet.getSelectedIndex()<0){
-                    listOfOnglet.remove(0);
-                }else{ listOfOnglet.remove(onglet.getSelectedIndex()); }
+            if(onglet.getSelectedIndex()<0){
+                listOfOnglet.remove(0);
+            }else{ listOfOnglet.remove(onglet.getSelectedIndex()); }
 
-            }
         };
 
         //ligne de code qui permet la connexion a la database
@@ -257,6 +254,7 @@ class MainS {
         }catch (Exception e1){
             e1.printStackTrace();
         }
+
 
         //portion du code qui recupere la dimension de l'écrand pour adapter la taille de la fenêtre à l'écrand
         Dimension dim = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -327,10 +325,22 @@ class MainS {
         jMenuPartie.add(jMenuItemImportGame);
         jMenuPartie.add(jMenuItemDeletteGame);
 
+        //menu compétence
+        JMenu jMenuCompetence = new JMenu("Compétence");
+        JMenuItem jMenuItemListeCompetence = new JMenuItem("Liste Complète");
+
+        //orga du menu compétence
+        jMenuCompetence.add(jMenuItemListeCompetence);
+
+        //menu help
+        JMenuItem jMenuItemHelp = new JMenuItem("aide !");
+
         //on ajoute tous les gros composant à la barre principal
         jMenuBar.add(jMenuPersonnage);
+        jMenuBar.add(jMenuCompetence);
         jMenuBar.add(jMenuPartie);
         jMenuBar.add(jMenuOutil);
+        jMenuBar.add(jMenuItemHelp);
 
         //on attribue a tous les menuitem leurs action respective
         jMenuItemAuto.addActionListener(e ->new DialogBox(null,"création Personnage",true) );
@@ -343,6 +353,9 @@ class MainS {
         jMenuItemCreateGame.addActionListener(e -> createGame(frame));
         jMenuItemImportGame.addActionListener(actionListenerImportPartie);
         jMenuItemDeletteGame.addActionListener(actionListenerSupprimerPartie);
+        jMenuItemListeCompetence.addActionListener(e -> new FrameComp());
+        jMenuItemHelp.addActionListener(e -> JOptionPane.showMessageDialog(null,"c'est toi qui à tout fait connard ta pas besoin d'aide.\nÇa fait juste plus pro blblblbl.","KDO de moi à moi",JOptionPane.QUESTION_MESSAGE));
+
 
         //ici on attribue les raccourcis clavier aux différentes options
         jMenuItemAuto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,KeyEvent.CTRL_DOWN_MASK));
@@ -355,16 +368,12 @@ class MainS {
         jMenuItemCreateGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,KeyEvent.CTRL_DOWN_MASK));
         jMenuItemImportGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,KeyEvent.CTRL_DOWN_MASK+KeyEvent.SHIFT_DOWN_MASK));
         jMenuItemDeletteGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,KeyEvent.ALT_DOWN_MASK+KeyEvent.SHIFT_DOWN_MASK));
+        jMenuItemListeCompetence.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,KeyEvent.SHIFT_DOWN_MASK));
         //on ajoute la barre de menu au panel
         panMenu.setLayout(new FlowLayout(FlowLayout.LEFT));
         panMenu.add(jMenuBar);
 
         //------------------------------------------------------------------------------------//
-
-        //action listener des boutons d'ajout auto/manuel et de suppression
-        //ICI LE FONCTION DE SAUVEGARDE DE L'ETAT DES PERSONNAGES VERS LA DATABASE
-        ActionListener actSave = e -> saveIntoDb();
-
         //listener qui permert la sauvegarde lors de la fermeture de la fenêtre
         WindowListener windowListener = new WindowListener() {
             @Override
@@ -606,6 +615,8 @@ class MainS {
                     String[] lineAdd = {resultSetBarda.getString("nom"),resultSetBarda.getString("nombre")};
                     panneau.tablemodelBarda.addRow(lineAdd);
                 }
+
+                saveIntoDb();
             }
         } catch (SQLException e) {
             e.printStackTrace();
