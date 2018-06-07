@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ class DialogBoxManuel extends JDialog {
     private JComboBox  jboxOrigine,jboxMetier,jboxSexe;
     private JButton okbutton,cancelButton;
     private Collecteur info;
-    private CollecteurManuel infoBis;
+    private CollecteurBis infoBis;
 
     public DialogBoxManuel(JFrame parent,String title,boolean modal){
         super(parent,title,modal);
@@ -208,7 +209,7 @@ class DialogBoxManuel extends JDialog {
                         Integer.parseInt(labelScoreCharisme.getText()),Integer.parseInt(labelScoreAdresse.getText()),Integer.parseInt(pecule.getText())
                         ,Integer.parseInt(destin.getText()));
 
-                infoBis= new CollecteurManuel(Integer.parseInt(XP.getText()),Integer.parseInt(lvl.getText()),Integer.parseInt(att.getText()),Integer.parseInt(parade.getText()));
+                infoBis= new CollecteurBis(Integer.parseInt(XP.getText()),Integer.parseInt(lvl.getText()),Integer.parseInt(att.getText()),Integer.parseInt(parade.getText()));
 
                 //variable qui viennent de Main
                 //on ajoute un onglet au tableau d'onglet et on ajoute le nom du personnage a une liste de personnage !
@@ -253,14 +254,49 @@ class DialogBoxManuel extends JDialog {
                     //ligne qui envoit toutes les informations du personnage  à la putin de fucking base de donner
                     state.executeUpdate("INSERT INTO personnage (name, origine, metier, sexe, pvmax, pvactuel, pamax, paactuel, xp, lvl," +
                             " ptsdestin, berylium, thritil, gold, argent, cuivre, courage, intelligence, charisme, adresse, force, attaque," +
-                            " parade,fk_partie) values('" + info.nom + "','" + info.origine + "','" + info.metier + "','" + info.sexe + "'" +
+                            " parade,fk_partie,couragemod,intelligencemod,charismemod,adressemod,forcemod,attaquemod,parademod) values('" + info.nom + "','" + info.origine + "','" + info.metier + "','" + info.sexe + "'" +
                             ",'"+info.pvMax.getText()+"','"+info.pvActuel.getText()+"','"+info.eaMax.getText()+"','"+info.eaActuel.getText()+"'" +
                             ",'"+infoBis.xp+"','"+infoBis.lvl+"','"
                             + info.ptsDestin + "',0,0,'" + info.pognon + "',0,0,'" + info.courage + "','" + info.intelligence + "','" + info.charisme + "'" +
-                            ",'" + info.adresse + "','" + info.force + "','"+infoBis.attaque+"','"+infoBis.parade+"','"+idPartie+"')");
+                            ",'" + info.adresse + "','" + info.force + "','"+infoBis.attaque+"','"+infoBis.parade+"','"+idPartie+"','"+""+"','"+""+"','"+""+"','"+""+"','"+""+"','"+""+"','"+""+"')");
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
+
+
+                //ici la fonction ne fonctionne que pour la partie base de donnée donc on va par la suite ajouter à l'écrand les compétences directement
+                //depuis la bdd
+                DialogBox.setCompetenceBaseMetier(info.metier,info.nom);
+                DialogBox.setCompetenceBaseOrigine(info.origine,info.nom);
+
+
+                // ici on affiche toutes les compétences du perso enregistrer dans la db à l'écrand
+                int idPerso=0;
+                try {
+                    ResultSet resultSetidPerso=MainS.conn.createStatement().executeQuery("select id from personnage where name='"+info.nom+"'");
+                    while (resultSetidPerso.next()){
+                        idPerso=resultSetidPerso.getInt("id");
+                    }
+
+                }catch (Exception e1){e1.printStackTrace();}
+
+                //recuperer  les id de toutes les compétences du perso
+                try {
+                    ResultSet resultSetIdCompetence = MainS.conn.createStatement().executeQuery("select * from tablepersocompetence where idPerso='"+idPerso+"'");
+
+                    while (resultSetIdCompetence.next()){
+                        ResultSet resultSetNomCompétence = MainS.conn.createStatement().executeQuery("select nom from competence where id='"+resultSetIdCompetence.getInt("idCompetence")+"'");
+                        if(resultSetNomCompétence.next()){
+
+                            String[] LineForTable = {resultSetNomCompétence.getString("nom")};
+                            pan.defaultTableModelCompetence.addRow(LineForTable);
+                        }
+                    }
+                } catch (SQLException e1) { e1.printStackTrace(); }
+
+
+
+
                 DialogBoxManuel.super.dispose();
             }
         };

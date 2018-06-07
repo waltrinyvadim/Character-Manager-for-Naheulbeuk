@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 class FrameComp extends JFrame {
-    private static DefaultTableModel defaultTableModel ;
 
     public FrameComp(){
         this.setSize(new Dimension(900,850));
@@ -51,15 +50,15 @@ class FrameComp extends JFrame {
             subPanelCompetence.setLayout(new BorderLayout());
 
             JTextArea textArea = new JTextArea();
-            textArea.append("                         " + anArrayListLettre + "\n*--------------------------*");
+            textArea.append("                         " + anArrayListLettre);
             subPanelCompetence.add(textArea, BorderLayout.NORTH);
 
             Object[][] data = {};
             String[] columnTitle = {"Nom compétence"};
-            defaultTableModel = new DefaultTableModel(data, columnTitle);
+            DefaultTableModel defaultTableModel = new DefaultTableModel(data, columnTitle);
 
             JTable table = new JTable(defaultTableModel);
-
+            JScrollPane jScrollPane = new JScrollPane(table);
 
             for (String nomCompetence : arrayListCompetence) {
                 if (nomCompetence.substring(0, 1).equals(anArrayListLettre)) {
@@ -72,7 +71,6 @@ class FrameComp extends JFrame {
             buttonInfo.addActionListener(e -> {
                 String nomCompetence = (String) table.getValueAt(table.getSelectedRow(), 0);
                 String description = "";
-                String[] titi = null;
                 try {
                     ResultSet resultSet = MainS.conn.createStatement().executeQuery("select * from competence where nom='" + nomCompetence + "'");
 
@@ -88,7 +86,7 @@ class FrameComp extends JFrame {
 
             subPanelCompetence.add(buttonInfo, BorderLayout.SOUTH);
 
-            subPanelCompetence.add(table, BorderLayout.CENTER);
+            subPanelCompetence.add(jScrollPane, BorderLayout.CENTER);
             panelListe.add(subPanelCompetence);
 
 

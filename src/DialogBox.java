@@ -11,6 +11,7 @@ class DialogBox extends JDialog {
     private JComboBox  jboxOrigine,jboxMetier,jboxSexe;
     private JButton okbutton,cancelButton;
     private Collecteur info;
+    static Panneau pan = new Panneau();
 
     public DialogBox(JFrame parent,String title,boolean modal){
         super(parent,title,modal);
@@ -195,7 +196,7 @@ class DialogBox extends JDialog {
             }
 
             if (e.getSource()==okbutton){
-                Panneau pan = new Panneau();
+
                 MainS.arrayListNomPersonnage.add(nom.getText());
 
                 //recuperation de toute les variable dans un seul objet parce que c'est plus simple ohlo
@@ -242,13 +243,17 @@ class DialogBox extends JDialog {
                         idPartie=resultSetIDGame.getInt("idpartie");
                     }
 
+                    String chaineVide ="";
                     //ligne qui envoit toutes les informations du personnage  à la putin de fucking base de donner
                     state.executeUpdate("INSERT INTO personnage (name, origine, metier, sexe, pvmax, pvactuel, pamax, paactuel, xp, lvl," +
                             " ptsdestin, berylium, thritil, gold, argent, cuivre, courage, intelligence, charisme, adresse, force, attaque," +
-                            " parade,fk_partie) values('" + info.nom + "','" + info.origine + "','" + info.metier + "','" + info.sexe + "'" +
+                            " parade,fk_partie,couragemod,intelligencemod,charismemod,adressemod,forcemod,attaquemod,parademod) values('" + info.nom + "','" + info.origine + "','" + info.metier + "','" + info.sexe + "'" +
                             ",'"+info.pvMax.getText()+"','"+info.pvActuel.getText()+"','"+info.eaMax.getText()+"','"+info.eaActuel.getText()+"',0,1,'"
                             + info.ptsDestin + "',0,0,'" + info.pognon + "',0,0,'" + info.courage + "','" + info.intelligence + "','" + info.charisme + "'" +
-                            ",'" + info.adresse + "','" + info.force + "',8,10,'"+idPartie+"')");
+                            ",'" + info.adresse + "','" + info.force + "',8,10,'"+idPartie+"','"+chaineVide+"','"+chaineVide+"','"+chaineVide+"','"+chaineVide+"','"+chaineVide+"','"+chaineVide+"','"+chaineVide+"')");
+
+                    //petite ligne pour ne pas laisser de valeur null mais plustot une chaine de caratère vide dans la bdd
+
 
                     //on ajoute l'id du personnage qu ivient d'etre créer a la liste des id
                     ResultSet resultSetid =state.executeQuery("select * from personnage_id_seq");
@@ -262,13 +267,20 @@ class DialogBox extends JDialog {
                     e1.printStackTrace();
                 }
 
+                setCompetenceBaseOrigine(info.origine,info.nom);
+                setCompetenceBaseMetier(info.metier,info.nom);
                 setAttPar(info.origine,info.metier,pan.tabLabStatCaracBase[8],pan.tabLabStatCaracBase[9]);
                 Panneau.listPanel.add(pan);
                 DialogBox.super.dispose();
+
+                MainS.onglet.setSelectedIndex(MainS.onglet.getTabCount()-1);
             }
         };
+
+
         cancelButton.addActionListener(controlListener);
         okbutton.addActionListener(controlListener);
+
     }
 
     //dans  cette methode on va changer les valeurs des caractéristique spécifique à chaque origine/metier
@@ -520,7 +532,588 @@ class DialogBox extends JDialog {
 
     }
 
-    private void setCompetenceBase(String _origine, String _metier){
+    public static void insertPersonnalCompetenceIntoDB(String nomComp, String nomPerso,String[] _LineForTable){
+
+        int idComp= 0,idPerso = 0;
+
+        try {
+            //on récupère l'id de la compétence
+            ResultSet resultSetIDComp = MainS.conn.createStatement().executeQuery("select id from competence where nom='"+nomComp+"'");
+            while(resultSetIDComp.next()){
+                idComp=resultSetIDComp.getInt("id");
+            }
+            resultSetIDComp.close();
+            //on récupère l'id du perso
+            ResultSet resultSetIDPerso = MainS.conn.createStatement().executeQuery("select id from personnage where name='"+nomPerso+"'");
+            while(resultSetIDPerso.next()){
+                idPerso=resultSetIDPerso.getInt("id");
+            }
+            resultSetIDPerso.close();
+
+            //on test si le couple de compétence/perso n'existe pas déjà dans la db, car un message d'erreure àpparait en cas de doublon
+            //si le couple n'existe pas déjà on le rajoute à la liste
+            ResultSet resultSetDoublon = MainS.conn.createStatement().executeQuery("SELECT * from tablepersocompetence where idPerso='"+idPerso+"'and idCompetence='"+idComp+"'");
+
+            if(resultSetDoublon.next()){
+                System.out.println("il y a un doublon, la commande ne seras pas prise en comptes");
+            }else{
+                MainS.conn.createStatement().executeUpdate("insert into tablepersocompetence (idPerso, idCompetence) values ('"+idPerso+"','"+idComp+"')");
+                pan.defaultTableModelCompetence.addRow(_LineForTable);
+            }
+
+
+
+        }catch (Exception e1){e1.printStackTrace();}
+    }
+
+    public static void setCompetenceBaseOrigine(String _origine,String nomPerso){
+
+        if(_origine.equals("nain")){
+            String newLine = "APPEL DU TONNEAU (INT) ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INSTINCT DU TRESOR (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "PÉNIBLE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "RADIN (CHA, INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("barebare")){
+            String newLine = "AMBIDEXTRIE (AD) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHERCHER DES NOISES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "SENTIR DES PIEDS ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TÊTE VIDE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("gobelin")){
+            String newLine = "AGORAPHOBIE (INT) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "APPEL DES RENFORTS ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "APPEL DU SAUVAGE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ATTIRE LES MONSTRES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INSTINCT DE SURVIE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INSTINCT DU TRESOR (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "SENTIR DES PIEDS ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TÊTE VIDE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("demi elfe")){
+            String newLine = "APPEL DES RENFORTS ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "DÉTECTER (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHOURAVER (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "MÉFIANCE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("elfe noir")){
+            String newLine = "AGORAPHOBIE (INT) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "DÉPLACEMENT SILENCIEUX (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "DÉTECTER (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TIRER CORRECTEMENT (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            
+        }
+
+        if(_origine.equals("gnôme des fôrets")){
+            String newLine = "AMBIDEXTRIE (AD) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "APPEL DES RENFORTS ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHEVAUCHER (AD, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHOURAVER (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "DÉPLACEMENT SILENCIEUX (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INSTINCT DU TRÉSOR (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("hobbit")){
+            String newLine = "APPEL DU TONNEAU (INT) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CUISTOT (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INSTINCT DE SURVIE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ATTIRE LES MONSTRES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "RESSEMBLE À RIEN ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("orque")){
+            String newLine = "AGORAPHOBIE (INT) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "APPEL DU SAUVAGE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "APPEL DU TONNEAU (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "BOURRE-PIF ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INSTINCT DE SURVIE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "SENTIR DES PIEDS ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TÊTE VIDE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("haut elfe")){
+            String newLine = "ÉRUDITION (INT) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "RUNES BIZARRES (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TOMBER DANS LES PIÈGES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("demi orque")){
+            String newLine = "AGORAPHOBIE (INT) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHERCHER DES NOISES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INSTINCT DE SURVIE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "SENTIR DES PIEDS ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TÊTE VIDE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("elfe sylvain")){
+            String newLine = "CHEVAUCHER (AD, CHA) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "NAÏVETÉ TOUCHANTE (CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "PREMIERS SOINS (AD, INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TIRER CORRECTEMENT (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TOMBER DANS LES PIÈGES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("ogre")){
+            String newLine = "ARMES DE BOURRIN ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "APPEL DU TONNEAU (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "APPEL DU VENTRE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INSTINCT DE SURVIE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INTIMIDER (COU, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "SENTIR DES PIEDS ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TÊTE VIDE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("amazone")){
+            String newLine = "ATTIRE LES MONSTRES ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHERCHER DES NOISES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "BOURRE-PIF ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TÊTE VIDE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHEVAUCHER (AD, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TRUC DE MAUVIETTE (PR) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ARMES LONGUES (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "SURVIVANTE (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "BEAUTÉ FÉROCE (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "IGNORANTE (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_origine.equals("nain de la mafia")){
+            String newLine = "APPEL DU TONNEAU (INT) ";
+            String []LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "AMBIDEXTRIE (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "BOURRE-PIF ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHOURAVER (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INSTINCT DU TRESOR (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "RADIN (CHA, INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "RESSEMBLE À RIEN ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ROUBLARD (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "BOND DATTAQUE (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+    }
+
+    public static void setCompetenceBaseMetier(String _metier,String nomPerso){
+
+        if(_metier.equals("assassin")){
+            String newLine = "TIRER CORRECTEMENT (AD) ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "FRAPPER LÂCHEMENT (AT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "DÉPLACEMENT SILENCIEUX (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_metier.equals("noble")){
+            String newLine = "APPEL DES RENFORTS ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ATTIRE LES MONSTRES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHEVAUCHER (AD, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ÉRUDITION (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "PÉNIBLE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_metier.equals("bourreau")){
+            String newLine = "APPEL DU TONNEAU (INT) ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ARMES DE BOURRIN ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "FRAPPER LÂCHEMENT (AT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INTIMIDER (COU, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "LANGUES DES MONSTRES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "MÉFIANCE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "POIGNE DE FER (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "TORTIONNAIRE (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "INFÂME (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_metier.equals("guerrier")) {
+            String newLine = "ARMES DE BOURRIN ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+            newLine = "BOURRE-PIF ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+        }
+
+        if(_metier.equals("ingenieur")){
+            String newLine = "BRICOLO DU DIMANCHE (AD) ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "DÉSAMORCER (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "FORGERON (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "RESSEMBLE À RIEN ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "SERRURIER (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_metier.equals("mage")) {
+            String newLine = "ÉRUDITION (INT) ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+            newLine = "RÉCUPÉRATION (PA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+            newLine = "RUNES BIZARRES (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+        }
+
+        if(_metier.equals("marchand")){
+            String newLine = "APPEL DES RENFORTS ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ARNAQUE ET CARAMBOUILLE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ÉRUDITION (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "FARIBOLES (INT, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "MÉFIANCE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_metier.equals("menestrel")){
+            String newLine = "ATTIRE LES MONSTRES ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHEVAUCHER (AD, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ÉRUDITION (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "FARIBOLES (INT, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "JONGLAGE ET DANSE (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "NAÏVETÉ TOUCHANTE (CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_metier.equals("paladin")) {
+            String newLine = "CHEVAUCHER (AD, CHA) ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+            newLine = "INTIMIDER (COU, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+            newLine = "RÉCUPÉRATION (PA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+
+        }
+
+        if(_metier.equals("pirate")){
+            String newLine = "APPEL DES RENFORTS ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "APPEL DU TONNEAU (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ARNAQUE ET CARAMBOUILLE ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHOURAVER (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "ESCALADER (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "NAGER (AD, FO) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_metier.equals("prêtre")) {
+            String newLine = "ÉRUDITION (INT) ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+            newLine = "MÉFIANCE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+            newLine = "RÉCUPÉRATION (PA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine, nomPerso, LineForTable);
+        }
+
+        if(_metier.equals("ranger")){
+            String newLine = "DÉPLACEMENT SILENCIEUX (AD) ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "DÉTECTER (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHEVAUCHER (AD, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "NAGER (AD, FO) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "PISTER (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_metier.equals("sbire")){
+            String newLine = "APPEL DES RENFORTS ";
+            String[] LineForTable = {newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "FARIBOLES (INT, CHA) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "FOUILLER DANS LES POUBELLES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "FRAPPER LÂCHEMENT (AT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "LANGUES DES MONSTRES ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "MÉFIANCE (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "MENDIER ET PLEURNICHER (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "RESSEMBLE À RIEN ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "MISÉRABLE (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "SURVIVALISTE (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "PLEUTRE (spécial) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
+        if(_metier.equals("voleur")){
+            String newLine= "APPEL DES RENFORTS ";
+            String[]  LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "CHOURAVER (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine = "DÉPLACEMENT SILENCIEUX (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "DÉTECTER (INT) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+            newLine= "SERRURIER (AD) ";
+            LineForTable = new String[]{newLine};
+            insertPersonnalCompetenceIntoDB(newLine,nomPerso,LineForTable);
+        }
+
 
     }
 

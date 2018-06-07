@@ -418,7 +418,6 @@ class MainS {
         //le blabla habituel
         frame.getContentPane().add(onglet);
         frame.setVisible(true);
-
     }
 
     private static void selectAllForeignKeyOfPersoFromOnglet(ArrayList<Integer> arrayListDesFKpartieDesPerso) {
@@ -444,7 +443,7 @@ class MainS {
         }catch (Exception e1){e1.printStackTrace();}
     }
 
-    private static void saveIntoDb() {
+    public static void saveIntoDb() {
         try {
             for (int i = 0; i < onglet.getTabCount(); i++) {
 
@@ -501,6 +500,8 @@ class MainS {
     }
 
     private static void importPerso(String sql){
+
+
         try {
             Statement state = conn.createStatement();
             //on recupère toutes les données selon la requete sql
@@ -616,6 +617,17 @@ class MainS {
                     panneau.tablemodelBarda.addRow(lineAdd);
                 }
 
+                //on recupère dans la table persoCompetence la liste des compétence associer à un personnage
+                //puis on affiche le nom de la compétence lier à la foreign key recuperer
+                ResultSet resultSetCompetence = conn.createStatement().executeQuery("SELECT * from tablepersocompetence where idPerso='"+resultSetPerso.getInt("id")+"'");
+                while (resultSetCompetence.next()){
+                    ResultSet resultSetNomComp = conn.createStatement().executeQuery("select nom from competence where id='"+resultSetCompetence.getInt("idCompetence")+"'");
+                    while (resultSetNomComp.next()){
+                        String[] lineAdd = {resultSetNomComp.getString("nom")};
+                        panneau.defaultTableModelCompetence.addRow(lineAdd);
+                    }
+                }
+                MainS.onglet.setSelectedIndex(onglet.getTabCount()-1);
                 saveIntoDb();
             }
         } catch (SQLException e) {

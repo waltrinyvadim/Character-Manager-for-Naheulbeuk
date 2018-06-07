@@ -7,17 +7,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28a1aff0-4099-4ada-bfe0-92a1996ff7a8" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/FrameComp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/34941203-0bcc-42d7-a5a3-15c26cde8834.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/34941203-0bcc-42d7-a5a3-15c26cde8834.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/34941203-0bcc-42d7-a5a3-15c26cde8834/storage_v2/_src_/database/DB_perso.OIGh4w/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/34941203-0bcc-42d7-a5a3-15c26cde8834/storage_v2/_src_/database/DB_perso.OIGh4w/schema/public.abK9xQ.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/usage.statistics.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/first/Image/ranger.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CollecteurManuel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CollecteurBis.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DialogBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DialogBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Image/ranger.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DialogBoxManuel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DialogBoxManuel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FrameComp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrameComp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Panneau.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Panneau.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Poubelle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Poubelle.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,7 +25,10 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/JDR_Manger$MainS.ic" NAME="MainS Coverage Results" MODIFIED="1525894601467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/JDR_Manger$MainS.ic" NAME="MainS Coverage Results" MODIFIED="1527259628056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="79" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -78,7 +79,7 @@
         <item name="DB_perso: database" type="6d9b600a:PostgresImplModel$Database" />
         <item name="public: schema" type="a16502c0:PostgresImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="competence: table" type="a93d6ac6:PostgresImplModel$LocalTable" />
+        <item name="tablepersocompetence: table" type="a93d6ac6:PostgresImplModel$LocalTable" />
       </path>
     </expand>
     <select />
@@ -91,14 +92,21 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MainS.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4815">
-              <caret line="328" column="24" selection-start-line="328" selection-start-column="24" selection-end-line="328" selection-end-column="24" />
+            <state relative-caret-position="2685">
+              <caret line="450" selection-start-line="450" selection-end-line="450" />
               <folding>
+                <element signature="class#801:3095" />
+                <element signature="class#3157:5753" />
+                <element signature="method#actionPerformed#0;class#3157:5753" />
+                <element signature="class#5867:7730" />
+                <element signature="class#7870:11052" />
+                <element signature="e#11151#11259#0" />
+                <element signature="e#11321#11577#0" />
+                <element signature="class#18419:19165" />
+                <element signature="method#windowOpened#0;class#18419:19165" />
                 <element signature="method#selectAllForeignKeyOfPersoFromOnglet#0;class#MainS#0" />
                 <element signature="method#fillArrayWithAllPersoName#0;class#MainS#0" />
-                <element signature="method#saveIntoDb#0;class#MainS#0" />
                 <element signature="method#createGame#0;class#MainS#0" />
-                <element signature="method#importPerso#0;class#MainS#0" />
               </folding>
             </state>
           </provider>
@@ -107,24 +115,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/DialogBox.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="545">
-              <caret line="183" column="31" selection-start-line="183" selection-start-column="31" selection-end-line="183" selection-end-column="31" />
+            <state relative-caret-position="-87">
+              <caret line="252" column="209" selection-start-line="252" selection-start-column="209" selection-end-line="252" selection-end-column="209" />
               <folding>
                 <element signature="method#checkForPvEa#0;class#DialogBox#0" />
                 <element signature="method#checkRestriction#0;class#DialogBox#0" />
                 <element signature="method#setAttPar#0;class#DialogBox#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/FrameComp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="46" selection-start-line="46" selection-end-line="46" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="method#insertPersonnalCompetenceIntoDB#0;class#DialogBox#0" />
+                <element signature="method#setCompetenceBaseOrigine#0;class#DialogBox#0" />
+                <element signature="method#setCompetenceBaseMetier#0;class#DialogBox#0" />
               </folding>
             </state>
           </provider>
@@ -141,16 +140,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>||</find>
-      <find>ne</find>
-      <find>&lt;</find>
-      <find>else</find>
-      <find>&gt;=</find>
-      <find>pas</find>
-      <find>degat</find>
-      <find>ARMURE</find>
-      <find>protection</find>
-      <find>barebare</find>
       <find>sylvain</find>
       <find>orque</find>
       <find>demi orque</find>
@@ -171,6 +160,16 @@
       <find>jMenuImportPartie</find>
       <find>listofModelBarda</find>
       <find>'</find>
+      <find>listofModelArme</find>
+      <find>insertPersonnalCompetenceIntoDB</find>
+      <find>new String[]{</find>
+      <find>[]</find>
+      <find>new String</find>
+      <find>new String[]</find>
+      <find>{</find>
+      <find>}</find>
+      <find>gobel</find>
+      <find>pan.defaultTableModelCompetence.addRow(LineForTable);</find>
     </findStrings>
     <replaceStrings>
       <replace>I</replace>
@@ -223,7 +222,6 @@
         <option value="$PROJECT_DIR$/src/CollecteurStatsMod.java" />
         <option value="$PROJECT_DIR$/src/DialogAddArme.java" />
         <option value="$PROJECT_DIR$/src/ActionListenerImportPartie.java" />
-        <option value="$PROJECT_DIR$/src/DialogBoxManuel.java" />
         <option value="$PROJECT_DIR$/src/PannelComp.java" />
         <option value="$PROJECT_DIR$/src/compétence.txt" />
         <option value="$PROJECT_DIR$/src/TableComponent.java" />
@@ -232,9 +230,11 @@
         <option value="$PROJECT_DIR$/src/ButtonRenderer.java" />
         <option value="$PROJECT_DIR$/src/competence.txt" />
         <option value="$PROJECT_DIR$/src/Poubelle.java" />
-        <option value="$PROJECT_DIR$/src/Panneau.java" />
         <option value="$PROJECT_DIR$/src/FrameComp.java" />
         <option value="$PROJECT_DIR$/src/MainS.java" />
+        <option value="$PROJECT_DIR$/src/Panneau.java" />
+        <option value="$PROJECT_DIR$/src/CollecteurBis.java" />
+        <option value="$PROJECT_DIR$/src/DialogBoxManuel.java" />
         <option value="$PROJECT_DIR$/src/DialogBox.java" />
       </list>
     </option>
@@ -357,7 +357,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -376,6 +375,7 @@
         </subPane>
       </pane>
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -432,7 +432,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1526653275598" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1528410875600" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -456,7 +456,7 @@
       </Profilers>
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1526653275599" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1528410875601" />
       </method>
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -645,11 +645,19 @@
       <workItem from="1526629533812" duration="5463000" />
       <workItem from="1526647491384" duration="3421000" />
       <workItem from="1526653139483" duration="103000" />
+      <workItem from="1526659879584" duration="189000" />
+      <workItem from="1526918771911" duration="7371000" />
+      <workItem from="1527257857011" duration="10925000" />
+      <workItem from="1527347541545" duration="2312000" />
+      <workItem from="1528128974782" duration="7137000" />
+      <workItem from="1528379116073" duration="7331000" />
+      <workItem from="1528392276155" duration="57000" />
+      <workItem from="1528392356071" duration="407000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="268081000" />
+    <option name="totallyTimeSpent" value="303810000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -664,7 +672,7 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49939394" visible="true" weight="0.20028612" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49939394" visible="true" weight="0.22317597" />
       <window_info id="Structure" order="1" sideWeight="0.50060606" side_tool="true" weight="0.12875536" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -675,17 +683,17 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32891566" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49930555" weight="0.22891566" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.41333333" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.413253" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32969698" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32891566" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32891566" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50069445" side_tool="true" weight="0.23636363" />
-      <window_info anchor="bottom" id="Messages" order="9" weight="0.32848486" />
+      <window_info anchor="bottom" id="Messages" order="9" weight="0.32771084" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32969698" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32771084" />
-      <window_info anchor="bottom" id="Database Changes" order="12" weight="0.32969698" />
-      <window_info anchor="bottom" id="Database Console" order="13" weight="0.32848486" />
+      <window_info anchor="bottom" id="Database Changes" order="12" weight="0.32891566" />
+      <window_info anchor="bottom" id="Database Console" order="13" weight="0.32771084" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24964234" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -694,8 +702,8 @@
       <window_info anchor="right" id="Maven Projects" order="5" weight="0.3297568" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info anchor="right" id="Database" order="8" sideWeight="0.495283" weight="0.15522175" />
-      <window_info anchor="right" id="Coverage" order="9" sideWeight="0.504717" side_tool="true" weight="0.15522175" />
+      <window_info anchor="right" id="Database" order="8" sideWeight="0.49375" weight="0.15522175" />
+      <window_info anchor="right" id="Coverage" order="9" sideWeight="0.50625" side_tool="true" weight="0.15522175" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -730,11 +738,6 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="35" />
-    </breakpoint-manager>
-  </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
@@ -762,13 +765,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/arme">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/sequence/personnage_id_seq">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -776,21 +772,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/barda">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/CollecteurStatsMod.java" />
-    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/armure">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ActionListenerImportPartie.java" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/34941203-0bcc-42d7-a5a3-15c26cde8834/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
@@ -806,59 +788,10 @@
     <entry file="file://$PROJECT_DIR$/_config.yml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/partie">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Collecteur.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DialogAddArme.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="104" column="154" selection-start-line="104" selection-start-column="154" selection-end-line="104" selection-end-column="154" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DialogAddArmure.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DialogAddBarda.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="60" column="130" selection-start-line="60" selection-start-column="130" selection-end-line="60" selection-end-column="130" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CollecteurManuel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/PostgreSQL/pgJDBC/postgresql-42.2.1.jar!/org/postgresql/core/Parser.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="521">
           <caret line="84" selection-start-line="84" selection-end-line="84" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/personnage">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -883,10 +816,31 @@
     <entry file="file://$PROJECT_DIR$/src/ButtonEditor.java" />
     <entry file="file://$PROJECT_DIR$/TestStreamReader.iml" />
     <entry file="file://$PROJECT_DIR$/src/competence.txt" />
+    <entry file="file://$PROJECT_DIR$/src/Collecteur.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-52">
+          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Poubelle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
+        <state relative-caret-position="-10672">
           <caret line="27" column="11" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/partie">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/arme">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -897,55 +851,133 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DialogBoxManuel.java">
+    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/tablepersocompetence">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/lib/src.zip!/java.desktop/java/awt/Component.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1424">
-          <caret line="250" column="21" selection-start-line="250" selection-start-column="21" selection-end-line="250" selection-end-column="21" />
+        <state relative-caret-position="197">
+          <caret line="6342" selection-start-line="6342" selection-end-line="6342" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DialogAddArme.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="104" column="154" selection-start-line="104" selection-start-column="154" selection-end-line="104" selection-end-column="154" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Panneau.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4627">
-          <caret line="67" selection-start-line="67" selection-end-line="67" />
+        <state relative-caret-position="775">
+          <caret line="280" lean-forward="true" selection-start-line="280" selection-end-line="280" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MainS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4815">
-          <caret line="328" column="24" selection-start-line="328" selection-start-column="24" selection-end-line="328" selection-end-column="24" />
-          <folding>
-            <element signature="method#selectAllForeignKeyOfPersoFromOnglet#0;class#MainS#0" />
-            <element signature="method#fillArrayWithAllPersoName#0;class#MainS#0" />
-            <element signature="method#saveIntoDb#0;class#MainS#0" />
-            <element signature="method#createGame#0;class#MainS#0" />
-            <element signature="method#importPerso#0;class#MainS#0" />
+            <element signature="e#14594#14740#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/FrameComp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="46" selection-start-line="46" selection-end-line="46" />
+        <state relative-caret-position="323">
+          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/PostgreSQL/pgJDBC/postgresql-42.2.1.jar!/org/postgresql/core/v3/QueryExecutorImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="563">
+          <caret line="181" selection-start-line="181" selection-end-line="181" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DialogBoxManuel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="260" column="191" selection-start-line="260" selection-start-column="191" selection-end-line="260" selection-end-column="191" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/barda">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CollecteurBis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/armure">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DialogAddArmure.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DialogAddBarda.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="60" column="130" selection-start-line="60" selection-start-column="130" selection-end-line="60" selection-end-column="130" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MainS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2685">
+          <caret line="450" selection-start-line="450" selection-end-line="450" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="class#801:3095" />
+            <element signature="class#3157:5753" />
+            <element signature="method#actionPerformed#0;class#3157:5753" />
+            <element signature="class#5867:7730" />
+            <element signature="class#7870:11052" />
+            <element signature="e#11151#11259#0" />
+            <element signature="e#11321#11577#0" />
+            <element signature="class#18419:19165" />
+            <element signature="method#windowOpened#0;class#18419:19165" />
+            <element signature="method#selectAllForeignKeyOfPersoFromOnglet#0;class#MainS#0" />
+            <element signature="method#fillArrayWithAllPersoName#0;class#MainS#0" />
+            <element signature="method#createGame#0;class#MainS#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://34941203-0bcc-42d7-a5a3-15c26cde8834/database/DB_perso/schema/public/table/personnage">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DialogBox.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="183" column="31" selection-start-line="183" selection-start-column="31" selection-end-line="183" selection-end-column="31" />
+        <state relative-caret-position="-87">
+          <caret line="252" column="209" selection-start-line="252" selection-start-column="209" selection-end-line="252" selection-end-column="209" />
           <folding>
             <element signature="method#checkForPvEa#0;class#DialogBox#0" />
             <element signature="method#checkRestriction#0;class#DialogBox#0" />
             <element signature="method#setAttPar#0;class#DialogBox#0" />
+            <element signature="method#insertPersonnalCompetenceIntoDB#0;class#DialogBox#0" />
+            <element signature="method#setCompetenceBaseOrigine#0;class#DialogBox#0" />
+            <element signature="method#setCompetenceBaseMetier#0;class#DialogBox#0" />
           </folding>
         </state>
       </provider>

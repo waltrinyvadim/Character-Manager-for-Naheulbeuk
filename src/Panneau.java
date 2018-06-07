@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 
@@ -270,9 +272,31 @@ class Panneau extends JPanel {
         Object[][] dataCompetence ={};
 
         defaultTableModelCompetence = new DefaultTableModel(dataCompetence,nomCollumCompetence);
+        listOfModelCompence.add(defaultTableModelCompetence);
         JTable jTabbedPaneCompetence = new JTable(defaultTableModelCompetence);
 
+
         JButton jButtonDescriptionCompetence = new JButton("Description de la compétence®");
+
+
+
+        ActionListener actionListenerDescription = e -> {
+            String nomCompetence = (String) jTabbedPaneCompetence.getValueAt(jTabbedPaneCompetence.getSelectedRow(), 0);
+            String description = "";
+            try {
+                ResultSet resultSet = MainS.conn.createStatement().executeQuery("select * from competence where nom='" + nomCompetence + "'");
+
+                while (resultSet.next()) {
+                    description = resultSet.getString("description");
+                }
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(null, description, "Description de : " + nomCompetence, JOptionPane.QUESTION_MESSAGE);
+
+        };
+        jButtonDescriptionCompetence.addActionListener(actionListenerDescription);
 
         panelCompetence.add(new JScrollPane(jTabbedPaneCompetence),BorderLayout.CENTER);
         panelCompetence.add(jButtonDescriptionCompetence,BorderLayout.SOUTH);
